@@ -13,7 +13,7 @@
     // Develop build
     // ========================================================================
     gulp.task('sass', function() {
-        return gulp.src('./src/scss/*.scss')
+        return gulp.src('src/scss/*.scss')
             .pipe(sourcemaps.init())
             .pipe(sass({
                 outputStyle: 'compressed'
@@ -25,13 +25,13 @@
 
     gulp.task('js', function () {
         return gulp.src([
-                'src/js/main.js',
+                'src/js/elasticslider.js',
             ])
             .pipe(sourcemaps.init())
             .pipe(babel())
-            .pipe(concat('src/app.js'))
+            .pipe(concat('elasticslider.min.js'))
             .pipe(sourcemaps.write('.'))
-            .pipe(gulp.dest('src'))
+            .pipe(gulp.dest('src/js/'))
             .pipe(connect.reload());
     });
 
