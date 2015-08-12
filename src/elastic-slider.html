@@ -1,0 +1,96 @@
+<link rel="import"
+ href="bower_components/polymer/polymer.html">
+
+<dom-module id="elastic-slider">
+
+    <link rel="stylesheet" href="css/ElasticSlider.css">
+
+    <template>
+        <span>{{activeSlide}}</span>
+        <div class="ElasticSlider-container">
+            <content></content>
+        </div>
+
+        <template is="dom-if" if="{{enablePagination}}">
+            <div class="ElasticSlider-pagiList">
+                <template is="dom-repeat" items="{{pagiArr}}">
+                    <div on-click="toSlide" class="ElasticSlider-pagiItem">{{item}}</div>
+                </template>
+            </div>
+        </template>
+    </template>
+
+    <script src="js/elasticslider.js"></script>
+
+    <script>
+        Polymer({
+            is: "elastic-slider",
+            properties: {
+                namespace: {
+                    type: String,
+                    value: "ElasticSlider"
+                },
+                activeSlide: {
+                    type: Number,
+                    value: 1
+                },
+                enableArrows: {
+                    type: Boolean
+                },
+
+                enablePagination: {
+                    type: Boolean
+                },
+
+                enableAutoSlide: {
+                    type: Boolean
+                }
+
+            },
+
+            toSlide: function(e, detail, sender) {
+                // console.log(e, detail, sender)
+                var val = e.model.item;
+
+                if (typeof val === 'number') {
+                    this.slider.startSlide(val, 'fade');
+                } else {
+
+                    e.model.item
+                    this.slider.startSlide(val);
+                    // var itemCount = this.pagiArr.length;
+                    // if (index > this._slideCount) {
+                    //     index = 0;
+                    // } else if (index < 0) {
+                    //     index = this._slideCount;
+                    // };
+
+                }
+
+            },
+            ready: function() {
+                // set this element's owner property
+                this.pagiArr = _range(this.querySelector('.ElasticSlider-container').children.length);
+
+                // Slider
+                // ============================================================
+                this.sliderOptions = {
+                    activeSlide: this.activeSlide,
+                };
+                this.slider = new ElasticSlider(this, this.sliderOptions);
+
+            }
+        });
+
+        function _range(num) {
+            var arr = [];
+
+            for (var i = 0; i < num; i++) {
+                arr[i] = i;
+            }
+
+            return arr;
+        }
+    </script>
+
+</dom-module>

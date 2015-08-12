@@ -1,0 +1,53 @@
+// ============================================================================
+// Elastic Slider
+// ============================================================================
+
+.ElasticSlider {
+    display: block;
+    background: red;
+    position: relative;
+    overflow: hidden;
+
+    &-container {
+    }
+
+    &-pagiList {
+        width: 100%;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        z-index: 5;
+
+    }
+
+        &-pagiItem {
+            float: left;
+        }
+
+    &-arrowList {
+        width: 100%;
+        position: absolute;
+        left: 0;
+        top: 50%;
+        z-index: 5;
+    }
+
+        &-arrowItem {
+            float: left;
+        }
+
+    &-item {
+        background: green;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: -100%;
+        left: -100%;
+
+        &--isActive {
+            left: 0;
+            top: 0;
+        }
+    }
+
+}
