@@ -44,10 +44,25 @@
         top: -100%;
         left: -100%;
 
+        &--clone {
+            z-index: 1;
+        }
+
         &--isActive {
             left: 0;
             top: 0;
         }
     }
+}
 
+// Animation styles
+
+.ElasticSlider-item--animateFadeStart {
+    top: 0%;
+    left: 0%;
+    opacity: 0;
+    transition: opacity 0.2s ease-out;
+}
+.ElasticSlider-item--animateFadeEnd {
+    opacity: 1;
 }

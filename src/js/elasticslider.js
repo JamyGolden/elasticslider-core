@@ -27,9 +27,20 @@ class ElasticSlider {
 
         this.animateHash = {
             fade: function(self, index, cb) {
-                return function() {
+                // return function(this, index, cb) {
                     self.elementList.slideArr[index];
-                }
+                    self.slideActiveIndex = index;
+                    self.elementList.cloneEl.classList.add('ElasticSlider-item--animateFadeStart');
+
+                    // Defer to force css transition onto start class
+                    window.setTimeout(function() {
+                        self.elementList.cloneEl.classList.add('ElasticSlider-item--animateFadeEnd');
+                    }, 5);
+
+                    window.setTimeout(function() {
+                        if (typeof cb === 'function') cb(self, index);
+                    }, 200)
+                // }
             }
         }
     }
@@ -39,10 +50,13 @@ class ElasticSlider {
     }
 
     startSlide(index, animateType) {
+        // Index gets moved up one due to clone element
+        this._createTransitionEl(index);
+
         // Handle odd index values
         if (index === 'next') index = this.slideActiveIndex + 1;
         if (index === 'prev') index = this.slideActiveIndex - 1;
-this._createTransitionEl(index)
+
         if (typeof index === 'undefined' || index > this._slideCount) {
             index = 0;
         } else if (index < 0) {
@@ -50,36 +64,20 @@ this._createTransitionEl(index)
         };
 
         if (animateType) {
-            this.animateHash[animateType](this, index)(function(){
-                this.endSlide(index);
+            this.animateHash[animateType](this, index + 1, function(self, index){
+                self.endSlide(index);
             })
         } else {
             this.endSlide(index);
         }
-
-        // window.setTimeout(function(){
-        // }, 2000);
-
-        // this.animateTo();
-        // this.slidePromise = new Promise(function(resolve, reject) {
-        //     // do a thing, possibly async, then…
-        //     // if (true) {
-        //     //     resolve("Stuff worked!");
-        //     // }
-        //     // else {
-        //     //     reject(Error("It broke"));
-        //     // }
-        // });
-        //
-        // this.slidePromise.then(function(){
-        //     console.log('resolved!')
-        // })
     }
 
     endSlide(index) {
         this._setActiveSlide(index);
 
-        console.log(this.slidePromise)
+        // Remove clone
+        this.elementList.containerEl.removeChild(this.elementList.cloneEl);
+        this.elementList.cloneEl = null;
     }
 
     _setActiveSlide(index) {
@@ -92,16 +90,13 @@ this._createTransitionEl(index)
         this.elementList.slideArr[index].classList.add('ElasticSlider-item--isActive');
         this.slideActiveIndex = index;
     }
-
-    _animateFade() {
-
-    }
-
+    
     _createTransitionEl(index) {
         if (this.elementList.cloneEl) {
             this.elementList.containerEl.removeChild(this.elementList.cloneEl);
         }
         this.elementList.cloneEl = this.elementList.slideArr[index].cloneNode(true);
+        this.elementList.cloneEl.classList.add('ElasticSlider-item--clone')
 
         this.elementList.containerEl.insertBefore(this.elementList.cloneEl, this.elementList.slideArr[0]);
     }
