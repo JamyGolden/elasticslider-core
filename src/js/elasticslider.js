@@ -196,11 +196,11 @@ class ElasticSlider {
     _createAnimationFunctions() {
         this.addAnimationFunction('fade', function()  {
             this.animationInit(function() {
-                this.elementList.cloneEl.classList.add(`${this.NAMESPACE}-item--animateFadeStart`);
+                this.elementList.cloneEl.classList.add(`${this.NAMESPACE}-item--animateFadeInit`);
             });
 
             this.animationStart(function() {
-                this.elementList.cloneEl.classList.add(`${this.NAMESPACE}-item--animateFadeEnd`);
+                this.elementList.cloneEl.classList.add(`${this.NAMESPACE}-item--animateFadeStart`);
             });
 
             this.animationEnd(600);
@@ -208,11 +208,11 @@ class ElasticSlider {
 
         this.addAnimationFunction('slide', function(self) {
             this.animationInit(function() {
-                this.elementList.cloneEl.classList.add(`${this.NAMESPACE}-item--animateSlideStart`);
+                this.elementList.cloneEl.classList.add(`${this.NAMESPACE}-item--animateSlideInit`);
             });
 
             this.animationStart(function() {
-                this.elementList.cloneEl.classList.add(`${this.NAMESPACE}-item--animateSlideEnd`);
+                this.elementList.cloneEl.classList.add(`${this.NAMESPACE}-item--animateSlideStart`);
             });
 
             this.animationEnd(1000);
