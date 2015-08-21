@@ -2,6 +2,8 @@
 
 class ElasticSlider {
     constructor(el, options) {
+        // Public properties
+        // ====================================================================
         this.NAMESPACE = 'ElasticSlider';
         this.CLASS_NAME_LIST = {
             'container': `${this.NAMESPACE}-container`,
@@ -10,6 +12,17 @@ class ElasticSlider {
             'itemClone': `${this.NAMESPACE}-item--clone`,
         }
         this.options = options;
+        this.slideActiveIndex = options.activeSlide - 1;
+        this.nextSlideActiveIndex = null;
+
+        // Private properties
+        // ====================================================================
+        this._animationFunctionHash = {};
+        this._slideCount = null;
+
+        // Create animations
+        // ====================================================================
+        this._createAnimationFunctions();
 
         // Elements
         // ====================================================================
@@ -19,11 +32,6 @@ class ElasticSlider {
         this.elementList.slideArr = this.elementList.containerEl.children;
         this.elementList.slideActiveEl = this.elementList.slideArr[options.activeSlide - 1];
         this.elementList.cloneEl = null;
-
-        // Properties
-        // ====================================================================
-        this.slideActiveIndex = options.activeSlide - 1;
-        this.nextSlideActiveIndex = null;
         this._slideCount = this.elementList.slideArr.length;
 
         // DOM manipulation
@@ -37,34 +45,6 @@ class ElasticSlider {
         }
 
         this._setActiveSlide(this.slideActiveIndex);
-
-        // Set animations
-        // ====================================================================
-        this.animateHash = {
-            fade: function(self, index, cb) {
-                self.animationInit(function() {
-                    self.elementList.cloneEl.classList.add('ElasticSlider-item--animateFadeStart');
-                });
-
-                self.animationStart(function() {
-                    self.elementList.cloneEl.classList.add('ElasticSlider-item--animateFadeEnd');
-                });
-
-                self.animationEnd(200);
-            },
-
-            slide: function(self, index, cb) {
-                self.animationInit(function() {
-                    self.elementList.cloneEl.classList.add('ElasticSlider-item--animateSlideStart');
-                });
-
-                self.animationStart(function() {
-                    self.elementList.cloneEl.classList.add('ElasticSlider-item--animateSlideEnd');
-                });
-
-                self.animationEnd(1000);
-            }
-        }
     }
 
     destroy() {
@@ -90,7 +70,7 @@ class ElasticSlider {
         this.nextSlideActiveIndex = index;
 
         if (animateType) {
-            this.animateHash[animateType](this, index + 1, function(self, index){
+            this._animationFunctionHash[animateType](this, index + 1, function(self, index){
                 self.endSlide(index);
             })
         } else {
@@ -128,8 +108,8 @@ class ElasticSlider {
         }, duration || 100);
     }
 
-    addAnimationFunction() {
-
+    addAnimationFunction(name, func) {
+        this._animationFunctionHash[name] = func;
     }
 
     getElement(elName) {
@@ -140,6 +120,7 @@ class ElasticSlider {
         // Use slide pased in or the next slide
         if (!index) index = this.nextSlideActiveIndex;
 
+        // Remove the active class name from all elements
         for (var i = 0; i < this.elementList.slideArr.length; i++) {
             var slide = this.elementList.slideArr[i];
 
@@ -164,5 +145,31 @@ class ElasticSlider {
 
         // Add to dom
         this.elementList.containerEl.appendChild(this.elementList.cloneEl);
+    }
+
+    _createAnimationFunctions() {
+        this.addAnimationFunction('fade', function(self, index, cb) {
+            self.animationInit(function() {
+                self.elementList.cloneEl.classList.add('ElasticSlider-item--animateFadeStart');
+            });
+
+            self.animationStart(function() {
+                self.elementList.cloneEl.classList.add('ElasticSlider-item--animateFadeEnd');
+            });
+
+            self.animationEnd(200);
+        });
+
+        this.addAnimationFunction('slide', function(self, index, cb) {
+            self.animationInit(function() {
+                self.elementList.cloneEl.classList.add('ElasticSlider-item--animateSlideStart');
+            });
+
+            self.animationStart(function() {
+                self.elementList.cloneEl.classList.add('ElasticSlider-item--animateSlideEnd');
+            });
+
+            self.animationEnd(1000);
+        });
     }
 }
