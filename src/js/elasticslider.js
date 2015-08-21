@@ -98,15 +98,6 @@ class ElasticSlider {
         }
     }
 
-    _endSlide() {
-        this._setActiveSlide();
-        this.setProp('isAnimating', false);
-
-        // Remove clone
-        this.elementList.containerEl.removeChild(this.elementList.cloneEl);
-        this.elementList.cloneEl = null;
-    }
-
     animationInit(cb) {
         if (typeof cb === 'function') {
             // Run the method in context of the class
@@ -135,8 +126,8 @@ class ElasticSlider {
         window.setTimeout(function() {
             if (typeof cb === 'function') {
                 // Run the method in context of the class
-                cb = cb.bind(this);
-                cb(index);
+                cb = cb.bind(self);
+                cb();
             }
 
             self._endSlide();
@@ -162,6 +153,16 @@ class ElasticSlider {
     // ====================================================================
     // Private methods
     // ====================================================================
+
+    _endSlide() {
+        this._setActiveSlide();
+        this.setProp('isAnimating', false);
+
+        // Remove clone
+        this.elementList.containerEl.removeChild(this.elementList.cloneEl);
+        this.elementList.cloneEl = null;
+    }
+
     _setActiveSlide(index) {
         // Use slide pased in or the next slide
         if (!index) index = this.getProp('nextActiveSlideIndex');
@@ -173,8 +174,8 @@ class ElasticSlider {
             slide.classList.remove(this.CLASS_NAME_LIST.itemActive);
         }
 
-        this.elementList.slideArr[index].classList.add(this.CLASS_NAME_LIST.itemActive);
-
+        this.elementList.slideActiveEl = this.elementList.slideArr[index];
+        this.elementList.slideActiveEl.classList.add(this.CLASS_NAME_LIST.itemActive);
         // Set active index and remove target item active index
         this.setProp('activeSlideIndex', index);
         this.setProp('nextActiveSlideIndex', null);
