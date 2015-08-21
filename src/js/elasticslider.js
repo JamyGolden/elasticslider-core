@@ -20,8 +20,8 @@ class ElasticSlider {
             'itemClone': `${this.NAMESPACE}-item--clone`,
         }
         this.options = options;
-        this.slideActiveIndex = options.activeSlide - 1;
-        this.nextSlideActiveIndex = null;
+        this.activeSlideIndex = options.activeSlide - 1;
+        this.nextActiveSlideIndex = null;
 
         // Private properties
         // ====================================================================
@@ -52,7 +52,7 @@ class ElasticSlider {
             itemEl.classList.add(this.CLASS_NAME_LIST.item);
         }
 
-        this._setActiveSlide(this.slideActiveIndex);
+        this._setActiveSlide(this.activeSlideIndex);
     }
 
     // ====================================================================
@@ -65,13 +65,13 @@ class ElasticSlider {
 
     startSlide(index, animateType) {
         // Can't animate to the same slide
-        if (index === this.slideActiveIndex) return;
+        if (index === this.activeSlideIndex) return;
 
         this._createTransitionEl(index);
 
         // Handle odd index values
-        if (index === 'next') index = this.nextSlideActiveIndex + 1;
-        if (index === 'prev') index = this.nextSlideActiveIndex - 1;
+        if (index === 'next') index = this.nextActiveSlideIndex + 1;
+        if (index === 'prev') index = this.nextActiveSlideIndex - 1;
 
         if (typeof index === 'undefined' || index > this._slideCount) {
             index = 0;
@@ -79,7 +79,7 @@ class ElasticSlider {
             index = this._slideCount;
         };
 
-        this.nextSlideActiveIndex = index;
+        this.nextActiveSlideIndex = index;
 
         if (animateType) {
             this._animationFunctionHash[animateType](this, index + 1)
@@ -144,7 +144,7 @@ class ElasticSlider {
     // ====================================================================
     _setActiveSlide(index) {
         // Use slide pased in or the next slide
-        if (!index) index = this.nextSlideActiveIndex;
+        if (!index) index = this.nextActiveSlideIndex;
 
         // Remove the active class name from all elements
         for (var i = 0; i < this.elementList.slideArr.length; i++) {
@@ -156,8 +156,8 @@ class ElasticSlider {
         this.elementList.slideArr[index].classList.add(this.CLASS_NAME_LIST.itemActive);
 
         // Set active index and remove target item active index
-        this.slideActiveIndex = index;
-        this.nextSlideActiveIndex = null;
+        this.activeSlideIndex = index;
+        this.nextActiveSlideIndex = null;
     }
 
     _createTransitionEl(index) {
