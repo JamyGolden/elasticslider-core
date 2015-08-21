@@ -207,16 +207,41 @@ class ElasticSlider {
             this.animationEnd(600);
         });
 
-        this.addAnimationFunction('slide', function(self) {
+        this.addAnimationFunction('slide', function() {
+            var direction = null; // Determines which direction to slide
+
+            if (this.getProp('nextActiveSlideIndex') > this.getProp('activeSlideIndex')) {
+                direction = 'Next';
+            } else {
+                direction = 'Prev';
+            };
+
             this.animationInit(function() {
-                this.elementList.cloneEl.classList.add(`${this.NAMESPACE}-item--animateSlideInit`);
+                this.elementList.cloneEl.classList.add(
+                    `${this.NAMESPACE}-item--animate${direction}SlideInit`
+                );
+                this.elementList.slideActiveEl.classList.add(
+                    `${this.NAMESPACE}-item--animateActive${direction}SlideInit`
+                );
             });
 
             this.animationStart(function() {
-                this.elementList.cloneEl.classList.add(`${this.NAMESPACE}-item--animateSlideStart`);
+                this.elementList.cloneEl.classList.add(
+                    `${this.NAMESPACE}-item--animate${direction}SlideStart`
+                );
+                this.elementList.slideActiveEl.classList.add(
+                    `${this.NAMESPACE}-item--animateActive${direction}SlideStart`
+                );
             });
 
-            this.animationEnd(1000);
+            this.animationEnd(1000, function(){
+                this.elementList.slideActiveEl.classList.remove(
+                    `${this.NAMESPACE}-item--animateActive${direction}SlideInit`
+                );
+                this.elementList.slideActiveEl.classList.remove(
+                    `${this.NAMESPACE}-item--animateActive${direction}SlideStart`
+                );
+            });
         });
     }
 }
