@@ -35,12 +35,11 @@ class ElasticSlider {
                     // Defer to force css transition onto start class
                     window.setTimeout(function() {
                         self.elementList.cloneEl.classList.add('ElasticSlider-item--animateFadeEnd');
-                    }, 5);
+                    }, 0);
 
                     window.setTimeout(function() {
                         if (typeof cb === 'function') cb(self, index);
-                    }, 200)
-                // }
+                    }, 100)
             }
         }
     }
