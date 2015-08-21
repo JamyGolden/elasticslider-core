@@ -2,14 +2,14 @@
 
 class ElasticSlider {
     constructor(el, options) {
-        this.namespace = 'ElasticSlider';
-        this.options = options;
+        this.NAMESPACE = 'ElasticSlider';
         this.CLASS_NAME_LIST = {
-            'container': `${this.namespace}-container`,
-            'item': `${this.namespace}-item`,
-            'itemActive': `${this.namespace}-item--isActive`,
-            'itemClone': `${this.namespace}-item--clone`,
+            'container': `${this.NAMESPACE}-container`,
+            'item': `${this.NAMESPACE}-item`,
+            'itemActive': `${this.NAMESPACE}-item--isActive`,
+            'itemClone': `${this.NAMESPACE}-item--clone`,
         }
+        this.options = options;
 
         // Elements
         // ====================================================================
@@ -28,7 +28,7 @@ class ElasticSlider {
 
         // DOM manipulation
         // ====================================================================
-        this.elementList.slider.classList.add(this.namespace);
+        this.elementList.slider.classList.add(this.NAMESPACE);
 
         for (var i = 0; i < this.elementList.slideArr.length; i++) {
             var itemEl = this.elementList.slideArr[i]
