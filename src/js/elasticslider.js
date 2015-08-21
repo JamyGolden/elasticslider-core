@@ -2,7 +2,6 @@
 
 class ElasticSlider {
     constructor(el, options) {
-        this.slider = el;
         this.namespace = 'ElasticSlider';
         this.options = options;
         this.CLASS_NAME_LIST = {
@@ -13,20 +12,23 @@ class ElasticSlider {
         }
 
         // Elements
+        // ====================================================================
         this.elementList = {};
-        this.elementList.containerEl = this.slider.querySelector(`.${this.CLASS_NAME_LIST.container}`);
+        this.elementList.slider = el;
+        this.elementList.containerEl = this.elementList.slider.querySelector(`.${this.CLASS_NAME_LIST.container}`);
         this.elementList.slideArr = this.elementList.containerEl.children;
         this.elementList.slideActiveEl = this.elementList.slideArr[options.activeSlide - 1];
         this.elementList.cloneEl = null;
 
         // Properties
+        // ====================================================================
         this.slideActiveIndex = options.activeSlide - 1;
         this.nextSlideActiveIndex = null;
         this._slideCount = this.elementList.slideArr.length;
 
-        // Add classes
+        // DOM manipulation
         // ====================================================================
-        this.slider.classList.add(this.namespace);
+        this.elementList.slider.classList.add(this.namespace);
 
         for (var i = 0; i < this.elementList.slideArr.length; i++) {
             var itemEl = this.elementList.slideArr[i]
@@ -36,8 +38,10 @@ class ElasticSlider {
 
         this._setActiveSlide(this.slideActiveIndex);
 
+        // Set animations
+        // ====================================================================
         this.animateHash = {
-            fade: function(self, index, cb) {            
+            fade: function(self, index, cb) {
                 self.animationInit(function() {
                     self.elementList.cloneEl.classList.add('ElasticSlider-item--animateFadeStart');
                 });
