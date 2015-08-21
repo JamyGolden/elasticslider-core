@@ -1,3 +1,12 @@
+// ============================================================================
+// ElasticSlider
+// Description still needed.
+// Version: "0.0.1"
+// Jamy Golden (http://css-plus.com/)
+// https://github.com/JamyGolden/ElasticSlider
+// License: MIT
+// ============================================================================
+
 (function(){
     'use strict';
 
