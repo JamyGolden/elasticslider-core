@@ -3,15 +3,22 @@
 class ElasticSlider {
     constructor(el, options) {
         this.slider = el;
+        this.namespace = 'ElasticSlider';
         this.options = options;
-        this.slidePromise = null;
+        this.CLASS_NAME_LIST = {
+            'container': `${this.namespace}-container`,
+            'item': `${this.namespace}-item`,
+            'itemActive': `${this.namespace}-item--isActive`,
+            'itemClone': `${this.namespace}-item--clone`,
+        }
         this.elementList = {};
-        this.elementList.containerEl = this.slider.querySelector(`.ElasticSlider-container`);
+        this.elementList.containerEl = this.slider.querySelector(`.${this.CLASS_NAME_LIST.container}`);
         this.elementList.slideArr = this.elementList.containerEl.children;
         this.elementList.slideActiveEl = this.elementList.slideArr[options.activeSlide - 1];
         this.slideActiveIndex = options.activeSlide - 1;
         this._slideCount = this.elementList.slideArr.length;
         this.elementList.cloneEl = null;
+
 
         // Add classes
         // ====================================================================
@@ -82,10 +89,10 @@ class ElasticSlider {
         for (var i = 0; i < this.elementList.slideArr.length; i++) {
             var slide = this.elementList.slideArr[i];
 
-            slide.classList.remove('ElasticSlider-item--isActive');
+            slide.classList.remove(this.CLASS_NAME_LIST.itemActive);
         }
 
-        this.elementList.slideArr[index].classList.add('ElasticSlider-item--isActive');
+        this.elementList.slideArr[index].classList.add(this.CLASS_NAME_LIST.itemActive);
         this.slideActiveIndex = index;
     }
 
@@ -95,7 +102,7 @@ class ElasticSlider {
         }
 
         this.elementList.cloneEl = this.elementList.slideArr[index].cloneNode(true);
-        this.elementList.cloneEl.classList.add('ElasticSlider-item--clone')
+        this.elementList.cloneEl.classList.add(this.CLASS_NAME_LIST.itemClone)
 
         this.elementList.containerEl.insertBefore(this.elementList.cloneEl, this.elementList.slideArr[0]);
     }
