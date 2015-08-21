@@ -11,11 +11,16 @@
             <content></content>
         </div>
 
-        <template is="dom-if" if="{{enablePagination}}">
+        <template is="dom-if"
+         if="{{enablePagination}}">
             <div class="ElasticSlider-pagiList">
-                <template is="dom-repeat" items="{{pagiArr}}">
-                    <div on-click="toSlide" class="ElasticSlider-pagiItem">{{item}}</div>
+
+                <template is="dom-repeat"
+                 items="{{pagiArr}}">
+                    <div on-click="toSlide"
+                     class="ElasticSlider-pagiItem">{{item}}</div>
                 </template>
+
             </div>
         </template>
     </template>
@@ -23,6 +28,9 @@
     <script src="js/elasticslider.js"></script>
 
     <script>
+    (function(){
+        'use strict';
+
         Polymer({
             is: "elastic-slider",
             properties: {
@@ -41,40 +49,27 @@
                 enableAutoSlide: {
                     type: Boolean
                 }
-
             },
 
             toSlide: function(e, detail, sender) {
-                // console.log(e, detail, sender)
                 var val = e.model.item;
 
                 if (typeof val === 'number') {
                     this.slider.startSlide(val, 'fade');
                 } else {
-
-                    e.model.item
                     this.slider.startSlide(val);
-                    // var itemCount = this.pagiArr.length;
-                    // if (index > this._slideCount) {
-                    //     index = 0;
-                    // } else if (index < 0) {
-                    //     index = this._slideCount;
-                    // };
-
                 }
-
             },
             ready: function() {
-                // set this element's owner property
+                // Get range array of slides for pagination
                 this.pagiArr = _range(this.querySelector('.ElasticSlider-container').children.length);
 
-                // Slider
-                // ============================================================
-                this.sliderOptions = {
+                // Init slider
+                var sliderOptions = {
                     activeSlide: this.activeSlide
                 };
-                this.slider = new ElasticSlider(this, this.sliderOptions);
 
+                this.slider = new ElasticSlider(this, sliderOptions);
             }
         });
 
@@ -87,6 +82,7 @@
 
             return arr;
         }
+    })();
     </script>
 
 </dom-module>
