@@ -20,8 +20,10 @@ class ElasticSlider {
             'itemClone': `${this.NAMESPACE}-item--clone`,
         }
         this.options = options;
-        this.activeSlideIndex = options.activeSlide - 1;
-        this.nextActiveSlideIndex = null;
+        this.properties = {};
+        this.setProp('activeSlideIndex', options.activeSlide - 1);
+        this.setProp('nextActiveSlideIndex', null);
+        this.setProp('isAnimating', false);
 
         // Private properties
         // ====================================================================
@@ -53,7 +55,7 @@ class ElasticSlider {
             itemEl.classList.add(this.CLASS_NAME_LIST.item);
         }
 
-        this._setActiveSlide(this.activeSlideIndex);
+        this._setActiveSlide(this.getProp('activeSlideIndex'));
     }
 
     // ====================================================================
@@ -65,14 +67,20 @@ class ElasticSlider {
     }
 
     startSlide(index, animateType) {
-        // Can't animate to the same slide
-        if (index === this.activeSlideIndex) return;
+        // Don't animate to the same slide
+        // Don't animate while animating
+        if (
+            index === this.getProp('activeSlideIndex')
+            || this.getProp('isAnimating') === true
+        ) {
+            return;
+        };
 
         this._createTransitionEl(index);
 
         // Handle odd index values
-        if (index === 'next') index = this.nextActiveSlideIndex + 1;
-        if (index === 'prev') index = this.nextActiveSlideIndex - 1;
+        if (index === 'next') index = this.getProp('nextActiveSlideIndex') + 1;
+        if (index === 'prev') index = this.getProp('nextActiveSlideIndex') - 1;
 
         if (typeof index === 'undefined' || index > this._slideCount) {
             index = 0;
@@ -80,7 +88,8 @@ class ElasticSlider {
             index = this._slideCount;
         };
 
-        this.nextActiveSlideIndex = index;
+        this.setProp('nextActiveSlideIndex', index);
+        this.setProp('isAnimating', true);
 
         if (animateType) {
             this._animationFunctionHash[animateType](this, index + 1)
@@ -91,6 +100,7 @@ class ElasticSlider {
 
     _endSlide() {
         this._setActiveSlide();
+        this.setProp('isAnimating', false);
 
         // Remove clone
         this.elementList.containerEl.removeChild(this.elementList.cloneEl);
@@ -141,12 +151,20 @@ class ElasticSlider {
         return this.elementList[elName];
     }
 
+    getProp(propName) {
+        return this.properties[propName];
+    }
+
+    setProp(propName, val) {
+        this.properties[propName] = val;
+    }
+
     // ====================================================================
     // Private methods
     // ====================================================================
     _setActiveSlide(index) {
         // Use slide pased in or the next slide
-        if (!index) index = this.nextActiveSlideIndex;
+        if (!index) index = this.getProp('nextActiveSlideIndex');
 
         // Remove the active class name from all elements
         for (var i = 0; i < this.elementList.slideArr.length; i++) {
@@ -158,8 +176,8 @@ class ElasticSlider {
         this.elementList.slideArr[index].classList.add(this.CLASS_NAME_LIST.itemActive);
 
         // Set active index and remove target item active index
-        this.activeSlideIndex = index;
-        this.nextActiveSlideIndex = null;
+        this.setProp('activeSlideIndex', index);
+        this.setProp('nextActiveSlideIndex', null);
     }
 
     _createTransitionEl(index) {
@@ -185,7 +203,7 @@ class ElasticSlider {
                 this.elementList.cloneEl.classList.add(`${this.NAMESPACE}-item--animateFadeEnd`);
             });
 
-            this.animationEnd(200);
+            this.animationEnd(600);
         });
 
         this.addAnimationFunction('slide', function(self) {
