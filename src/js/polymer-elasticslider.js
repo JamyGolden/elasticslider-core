@@ -25,24 +25,36 @@
                 type: Boolean
             },
 
-            enableAutoSlide: {
-                type: Boolean
+            animation: {
+                type: String,
+                value: 'slide'
             }
         },
 
         toSlide: function(e, detail, sender) {
             let val = e.model.item;
+            let index = null;
 
+            // Determine next slide index
             if (typeof val === 'number') {
-                this.slider.startSlide(val, 'slide');
+                index = val;
+            } else if (val === 'Prev'){
+                index = this.slider.getProp('activeSlideIndex') -1;
+
+                this.slider.setProp('animationDirection', 'Prev');
             } else {
-                this.slider.startSlide(val);
+                index = this.slider.getProp('activeSlideIndex') +1;
+
+                this.slider.setProp('animationDirection', 'Next');
             }
+
+            this.slider.toSlide(index, this.animation);
         },
+
         ready: function() {
             // Get range array of slides for pagination
             this.pagiArr = _range(this.querySelector('.ElasticSlider-container').children.length);
-
+            this.arrowArr = ['Prev', 'Next'];
             // Init slider
             let sliderOptions = {
                 activeSlide: this.activeSlide

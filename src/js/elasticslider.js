@@ -66,7 +66,7 @@ class ElasticSlider {
         this.elementList.containerEl.removeChild(this.elementList.cloneEl);
     }
 
-    startSlide(index, animateType) {
+    toSlide(index, animateType) {
         // Don't animate to the same slide
         // Don't animate while animating
         if (
@@ -76,18 +76,14 @@ class ElasticSlider {
             return;
         };
 
-        this._createTransitionEl(index);
-
-        // Handle odd index values
-        if (index === 'next') index = this.getProp('nextActiveSlideIndex') + 1;
-        if (index === 'prev') index = this.getProp('nextActiveSlideIndex') - 1;
-
-        if (typeof index === 'undefined' || index > this._slideCount) {
+        // Handle invalid index values
+        if (typeof index !== 'number' || index > this._slideCount - 1) {
             index = 0;
         } else if (index < 0) {
-            index = this._slideCount;
+            index = this._slideCount - 1;
         };
 
+        this._createTransitionEl(index);
         this.setProp('nextActiveSlideIndex', index);
         this.setProp('isAnimating', true);
 
@@ -150,6 +146,10 @@ class ElasticSlider {
         this.properties[propName] = val;
     }
 
+    removeProp(propName, val) {
+        delete this.properties[propName];
+    }
+
     // ====================================================================
     // Private methods
     // ====================================================================
@@ -209,12 +209,20 @@ class ElasticSlider {
 
         this.addAnimationFunction('slide', function() {
             var direction = null; // Determines which direction to slide
+            var animationDirection = this.getProp('animationDirection');
 
-            if (this.getProp('nextActiveSlideIndex') > this.getProp('activeSlideIndex')) {
+            // If an explicit direction has been set
+            if (animationDirection) {
+                direction = animationDirection;
+            }
+            // Otherwise greater index means next
+            else if (this.getProp('nextActiveSlideIndex') > this.getProp('activeSlideIndex')) {
                 direction = 'Next';
-            } else {
+            }
+            else {
                 direction = 'Prev';
             };
+
 
             this.animationInit(function() {
                 this.elementList.cloneEl.classList.add(
@@ -241,6 +249,9 @@ class ElasticSlider {
                 this.elementList.slideActiveEl.classList.remove(
                     `${this.NAMESPACE}-item--animateActive${direction}SlideStart`
                 );
+
+                // Don't allow this to be cached permanently
+                this.removeProp('animationDirection');
             });
         });
     }

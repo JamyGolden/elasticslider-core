@@ -12,6 +12,19 @@
         </div>
 
         <template is="dom-if"
+         if="{{enableArrows}}">
+            <div class="ElasticSlider-arrowList">
+
+                 <template is="dom-repeat"
+                  items="{{arrowArr}}">
+                     <div on-click="toSlide"
+                      class="ElasticSlider-pagiItem">{{item}}</div>
+                 </template>
+
+            </div>
+        </template>
+
+        <template is="dom-if"
          if="{{enablePagination}}">
             <div class="ElasticSlider-pagiList">
 
