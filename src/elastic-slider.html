@@ -26,10 +26,6 @@
         Polymer({
             is: "elastic-slider",
             properties: {
-                namespace: {
-                    type: String,
-                    value: "ElasticSlider"
-                },
                 activeSlide: {
                     type: Number,
                     value: 1
@@ -75,7 +71,7 @@
                 // Slider
                 // ============================================================
                 this.sliderOptions = {
-                    activeSlide: this.activeSlide,
+                    activeSlide: this.activeSlide
                 };
                 this.slider = new ElasticSlider(this, this.sliderOptions);
 
