@@ -11,41 +11,54 @@ class ElasticSlider {
             'itemActive': `${this.namespace}-item--isActive`,
             'itemClone': `${this.namespace}-item--clone`,
         }
+
+        // Elements
         this.elementList = {};
         this.elementList.containerEl = this.slider.querySelector(`.${this.CLASS_NAME_LIST.container}`);
         this.elementList.slideArr = this.elementList.containerEl.children;
         this.elementList.slideActiveEl = this.elementList.slideArr[options.activeSlide - 1];
-        this.slideActiveIndex = options.activeSlide - 1;
-        this._slideCount = this.elementList.slideArr.length;
         this.elementList.cloneEl = null;
 
+        // Properties
+        this.slideActiveIndex = options.activeSlide - 1;
+        this.nextSlideActiveIndex = null;
+        this._slideCount = this.elementList.slideArr.length;
 
         // Add classes
         // ====================================================================
-        this.slider.classList.add('ElasticSlider');
+        this.slider.classList.add(this.namespace);
 
         for (var i = 0; i < this.elementList.slideArr.length; i++) {
             var itemEl = this.elementList.slideArr[i]
 
-            itemEl.classList.add('ElasticSlider-item');
+            itemEl.classList.add(this.CLASS_NAME_LIST.item);
         }
 
         this._setActiveSlide(this.slideActiveIndex);
 
         this.animateHash = {
-            fade: function(self, index, cb) {
-                self.elementList.slideArr[index];
-                self.slideActiveIndex = index;
-                self.elementList.cloneEl.classList.add('ElasticSlider-item--animateFadeStart');
+            fade: function(self, index, cb) {            
+                self.animationInit(function() {
+                    self.elementList.cloneEl.classList.add('ElasticSlider-item--animateFadeStart');
+                });
 
-                // Defer to force css transition onto start class
-                window.setTimeout(function() {
+                self.animationStart(function() {
                     self.elementList.cloneEl.classList.add('ElasticSlider-item--animateFadeEnd');
-                }, 0);
+                });
 
-                window.setTimeout(function() {
-                    if (typeof cb === 'function') cb(self, index);
-                }, 100)
+                self.animationEnd(200);
+            },
+
+            slide: function(self, index, cb) {
+                self.animationInit(function() {
+                    self.elementList.cloneEl.classList.add('ElasticSlider-item--animateSlideStart');
+                });
+
+                self.animationStart(function() {
+                    self.elementList.cloneEl.classList.add('ElasticSlider-item--animateSlideEnd');
+                });
+
+                self.animationEnd(1000);
             }
         }
     }
@@ -55,18 +68,22 @@ class ElasticSlider {
     }
 
     startSlide(index, animateType) {
-        // Index gets moved up one due to clone element
+        // Can't animate to the same slide
+        if (index === this.slideActiveIndex) return;
+
         this._createTransitionEl(index);
 
         // Handle odd index values
-        if (index === 'next') index = this.slideActiveIndex + 1;
-        if (index === 'prev') index = this.slideActiveIndex - 1;
+        if (index === 'next') index = this.nextSlideActiveIndex + 1;
+        if (index === 'prev') index = this.nextSlideActiveIndex - 1;
 
         if (typeof index === 'undefined' || index > this._slideCount) {
             index = 0;
         } else if (index < 0) {
             index = this._slideCount;
         };
+
+        this.nextSlideActiveIndex = index;
 
         if (animateType) {
             this.animateHash[animateType](this, index + 1, function(self, index){
@@ -85,7 +102,40 @@ class ElasticSlider {
         this.elementList.cloneEl = null;
     }
 
+    animationInit(cb) {
+        if (typeof cb === 'function') cb();
+    }
+
+    animationStart(cb) {
+        // Defer
+        window.setTimeout(function() {
+            if (typeof cb === 'function') cb();
+        }, 0);
+    }
+
+    animationEnd(duration, cb) {
+        var self = this;
+        var index = self.nextSlideActiveIndex;
+
+        window.setTimeout(function() {
+            if (typeof cb === 'function') cb(self, index);
+
+            self.endSlide(index);
+        }, duration || 100);
+    }
+
+    addAnimationFunction() {
+
+    }
+
+    getElement(elName) {
+        return this.elementList[elName];
+    }
+
     _setActiveSlide(index) {
+        // Use slide pased in or the next slide
+        if (!index) index = this.nextSlideActiveIndex;
+
         for (var i = 0; i < this.elementList.slideArr.length; i++) {
             var slide = this.elementList.slideArr[i];
 
@@ -93,7 +143,10 @@ class ElasticSlider {
         }
 
         this.elementList.slideArr[index].classList.add(this.CLASS_NAME_LIST.itemActive);
+
+        // Set active index and remove target item active index
         this.slideActiveIndex = index;
+        this.nextSlideActiveIndex = null;
     }
 
     _createTransitionEl(index) {
@@ -101,9 +154,11 @@ class ElasticSlider {
             this.elementList.containerEl.removeChild(this.elementList.cloneEl);
         }
 
+        // Create el
         this.elementList.cloneEl = this.elementList.slideArr[index].cloneNode(true);
         this.elementList.cloneEl.classList.add(this.CLASS_NAME_LIST.itemClone)
 
-        this.elementList.containerEl.insertBefore(this.elementList.cloneEl, this.elementList.slideArr[0]);
+        // Add to dom
+        this.elementList.containerEl.appendChild(this.elementList.cloneEl);
     }
 }
