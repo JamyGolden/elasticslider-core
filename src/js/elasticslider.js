@@ -27,19 +27,18 @@ class ElasticSlider {
 
         this.animateHash = {
             fade: function(self, index, cb) {
-                // return function(this, index, cb) {
-                    self.elementList.slideArr[index];
-                    self.slideActiveIndex = index;
-                    self.elementList.cloneEl.classList.add('ElasticSlider-item--animateFadeStart');
+                self.elementList.slideArr[index];
+                self.slideActiveIndex = index;
+                self.elementList.cloneEl.classList.add('ElasticSlider-item--animateFadeStart');
 
-                    // Defer to force css transition onto start class
-                    window.setTimeout(function() {
-                        self.elementList.cloneEl.classList.add('ElasticSlider-item--animateFadeEnd');
-                    }, 0);
+                // Defer to force css transition onto start class
+                window.setTimeout(function() {
+                    self.elementList.cloneEl.classList.add('ElasticSlider-item--animateFadeEnd');
+                }, 0);
 
-                    window.setTimeout(function() {
-                        if (typeof cb === 'function') cb(self, index);
-                    }, 100)
+                window.setTimeout(function() {
+                    if (typeof cb === 'function') cb(self, index);
+                }, 100)
             }
         }
     }
@@ -89,11 +88,12 @@ class ElasticSlider {
         this.elementList.slideArr[index].classList.add('ElasticSlider-item--isActive');
         this.slideActiveIndex = index;
     }
-    
+
     _createTransitionEl(index) {
         if (this.elementList.cloneEl) {
             this.elementList.containerEl.removeChild(this.elementList.cloneEl);
         }
+
         this.elementList.cloneEl = this.elementList.slideArr[index].cloneNode(true);
         this.elementList.cloneEl.classList.add('ElasticSlider-item--clone')
 
