@@ -25,13 +25,18 @@
                 type: Boolean
             },
 
+            autoPlayDuration: {
+                type: Number,
+                value: 0
+            },
+
             animation: {
                 type: String,
                 value: 'slide'
             }
         },
 
-        toSlide: function(e, detail, sender) {
+        toSlide: function(e) {
             let val = e.model.item;
             let index = null;
 
@@ -49,10 +54,17 @@
             }
 
             this.slider.toSlide(index, this.animation);
+
+            // Reset autoPlay interval
+            if (this.autoPlayDuration > 0) {
+                this.stopAutoPlay();
+                this.startAutoPlay();
+            }
         },
 
         ready: function() {
             // Get range array of slides for pagination
+            this.autoPlayInterval = null;
             this.pagiArr = _range(this.querySelector('.ElasticSlider-container').children.length);
             this.arrowArr = ['Prev', 'Next'];
             // Init slider
@@ -61,6 +73,25 @@
             };
 
             this.slider = new ElasticSlider(this, sliderOptions);
+
+            if (this.autoPlayDuration > 0) {
+                this.startAutoPlay();
+            }
+        },
+
+        startAutoPlay: function() {
+            var self = this;
+            // If autoPlay is set
+            this.autoPlayInterval = window.setInterval(function() {
+                var index = self.slider.getProp('activeSlideIndex') +1;
+
+                self.slider.setProp('animationDirection', 'Next');
+                self.slider.toSlide(index, self.animation);
+            }, this.autoPlayDuration)
+        },
+
+        stopAutoPlay: function() {
+            window.clearInterval(this.autoPlayInterval);
         }
     });
 
