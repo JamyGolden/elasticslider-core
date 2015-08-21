@@ -1,5 +1,10 @@
 // ============================================================================
-// Elastic Slider
+// ElasticSlider
+// Description still needed.
+// Version: "0.0.1"
+// Jamy Golden (http://css-plus.com/)
+// https://github.com/JamyGolden/ElasticSlider
+// License: MIT
 // ============================================================================
 
 .ElasticSlider {
@@ -65,4 +70,12 @@
 }
 .ElasticSlider-item--animateFadeEnd {
     opacity: 1;
+}
+
+.ElasticSlider-item--animateSlideStart {
+    top: 0%;
+    transition: left 0.2s cubic-bezier(0.95, 0.05, 0.795, 0.035);
+}
+.ElasticSlider-item--animateSlideEnd {
+    left: 0%;
 }
