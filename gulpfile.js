@@ -24,12 +24,22 @@
     });
 
     gulp.task('js', function () {
-        return gulp.src([
+        gulp.src([
                 'src/js/elasticslider.js',
             ])
             .pipe(sourcemaps.init())
             .pipe(babel())
             .pipe(concat('elasticslider.min.js'))
+            .pipe(sourcemaps.write('.'))
+            .pipe(gulp.dest('src/js/'))
+            .pipe(connect.reload());
+
+        gulp.src([
+                'src/js/polymer-elasticslider.js',
+            ])
+            .pipe(sourcemaps.init())
+            .pipe(babel())
+            .pipe(concat('polymer-elasticslider.min.js'))
             .pipe(sourcemaps.write('.'))
             .pipe(gulp.dest('src/js/'))
             .pipe(connect.reload());

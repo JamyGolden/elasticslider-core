@@ -22,7 +22,7 @@
         },
 
         toSlide: function(e, detail, sender) {
-            var val = e.model.item;
+            let val = e.model.item;
 
             if (typeof val === 'number') {
                 this.slider.startSlide(val, 'fade');
@@ -35,7 +35,7 @@
             this.pagiArr = _range(this.querySelector('.ElasticSlider-container').children.length);
 
             // Init slider
-            var sliderOptions = {
+            let sliderOptions = {
                 activeSlide: this.activeSlide
             };
 
@@ -44,9 +44,9 @@
     });
 
     function _range(num) {
-        var arr = [];
+        let arr = [];
 
-        for (var i = 0; i < num; i++) {
+        for (let i = 0; i < num; i++) {
             arr[i] = i;
         }
 
