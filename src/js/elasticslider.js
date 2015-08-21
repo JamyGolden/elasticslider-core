@@ -47,8 +47,12 @@ class ElasticSlider {
         this._setActiveSlide(this.slideActiveIndex);
     }
 
+    // ====================================================================
+    // Public methods
+    // ====================================================================
+    // May be useful in future. No events to remove.
     destroy() {
-
+        this.elementList.containerEl.removeChild(this.elementList.cloneEl);
     }
 
     startSlide(index, animateType) {
@@ -70,16 +74,14 @@ class ElasticSlider {
         this.nextSlideActiveIndex = index;
 
         if (animateType) {
-            this._animationFunctionHash[animateType](this, index + 1, function(self, index){
-                self.endSlide(index);
-            })
+            this._animationFunctionHash[animateType](this, index + 1)
         } else {
-            this.endSlide(index);
+            this._endSlide(index);
         }
     }
 
-    endSlide(index) {
-        this._setActiveSlide(index);
+    _endSlide() {
+        this._setActiveSlide();
 
         // Remove clone
         this.elementList.containerEl.removeChild(this.elementList.cloneEl);
@@ -87,35 +89,51 @@ class ElasticSlider {
     }
 
     animationInit(cb) {
-        if (typeof cb === 'function') cb();
+        if (typeof cb === 'function') {
+            // Make sure the function runs in context of the class
+            cb = cb.bind(this);
+            cb();
+        }
     }
 
     animationStart(cb) {
+        var self = this;
+
         // Defer
         window.setTimeout(function() {
-            if (typeof cb === 'function') cb();
+            if (typeof cb === 'function') {
+                // Make sure the method runs in context of the class
+                cb = cb.bind(self);
+                cb();
+            }
         }, 0);
     }
 
     animationEnd(duration, cb) {
         var self = this;
-        var index = self.nextSlideActiveIndex;
 
         window.setTimeout(function() {
-            if (typeof cb === 'function') cb(self, index);
+            if (typeof cb === 'function') {
+                // Make sure the method runs in context of the class
+                cb = cb.bind(this);
+                cb(index);
+            }
 
-            self.endSlide(index);
+            self._endSlide();
         }, duration || 100);
     }
 
     addAnimationFunction(name, func) {
-        this._animationFunctionHash[name] = func;
+        this._animationFunctionHash[name] = func.bind(this);
     }
 
     getElement(elName) {
         return this.elementList[elName];
     }
 
+    // ====================================================================
+    // Private methods
+    // ====================================================================
     _setActiveSlide(index) {
         // Use slide pased in or the next slide
         if (!index) index = this.nextSlideActiveIndex;
@@ -148,28 +166,28 @@ class ElasticSlider {
     }
 
     _createAnimationFunctions() {
-        this.addAnimationFunction('fade', function(self, index, cb) {
-            self.animationInit(function() {
-                self.elementList.cloneEl.classList.add('ElasticSlider-item--animateFadeStart');
+        this.addAnimationFunction('fade', function()  {
+            this.animationInit(function() {
+                this.elementList.cloneEl.classList.add('ElasticSlider-item--animateFadeStart');
             });
 
-            self.animationStart(function() {
-                self.elementList.cloneEl.classList.add('ElasticSlider-item--animateFadeEnd');
+            this.animationStart(function() {
+                this.elementList.cloneEl.classList.add('ElasticSlider-item--animateFadeEnd');
             });
 
-            self.animationEnd(200);
+            this.animationEnd(200);
         });
 
-        this.addAnimationFunction('slide', function(self, index, cb) {
-            self.animationInit(function() {
-                self.elementList.cloneEl.classList.add('ElasticSlider-item--animateSlideStart');
+        this.addAnimationFunction('slide', function(self) {
+            this.animationInit(function() {
+                this.elementList.cloneEl.classList.add('ElasticSlider-item--animateSlideStart');
             });
 
-            self.animationStart(function() {
-                self.elementList.cloneEl.classList.add('ElasticSlider-item--animateSlideEnd');
+            this.animationStart(function() {
+                this.elementList.cloneEl.classList.add('ElasticSlider-item--animateSlideEnd');
             });
 
-            self.animationEnd(1000);
+            this.animationEnd(1000);
         });
     }
 }
