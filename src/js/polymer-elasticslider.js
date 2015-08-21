@@ -34,7 +34,7 @@
             let val = e.model.item;
 
             if (typeof val === 'number') {
-                this.slider.startSlide(val, 'fade');
+                this.slider.startSlide(val, 'slide');
             } else {
                 this.slider.startSlide(val);
             }

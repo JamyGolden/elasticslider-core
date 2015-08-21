@@ -27,6 +27,7 @@ class ElasticSlider {
         // ====================================================================
         this._animationFunctionHash = {};
         this._slideCount = null;
+        this._initialAnimationDelay = 50; // ms in which animation begins
 
         // Create animations
         // ====================================================================
@@ -98,7 +99,7 @@ class ElasticSlider {
 
     animationInit(cb) {
         if (typeof cb === 'function') {
-            // Make sure the function runs in context of the class
+            // Run the method in context of the class
             cb = cb.bind(this);
             cb();
         }
@@ -110,25 +111,26 @@ class ElasticSlider {
         // Defer
         window.setTimeout(function() {
             if (typeof cb === 'function') {
-                // Make sure the method runs in context of the class
+                // Run the method in context of the class
                 cb = cb.bind(self);
                 cb();
             }
-        }, 0);
+        }, this._initialAnimationDelay);
     }
 
     animationEnd(duration, cb) {
         var self = this;
+        var totalDuration = (duration || 100) + this._initialAnimationDelay;
 
         window.setTimeout(function() {
             if (typeof cb === 'function') {
-                // Make sure the method runs in context of the class
+                // Run the method in context of the class
                 cb = cb.bind(this);
                 cb(index);
             }
 
             self._endSlide();
-        }, duration || 100);
+        }, totalDuration);
     }
 
     addAnimationFunction(name, func) {

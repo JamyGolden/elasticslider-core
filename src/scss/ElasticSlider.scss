@@ -48,6 +48,7 @@
         position: absolute;
         top: -100%;
         left: -100%;
+        z-index: 0;
 
         &--clone {
             z-index: 1;
@@ -66,7 +67,7 @@
     top: 0%;
     left: 0%;
     opacity: 0;
-    transition: opacity 0.2s ease-out;
+    transition: opacity 0.6s ease-out;
 }
 .ElasticSlider-item--animateFadeEnd {
     opacity: 1;
