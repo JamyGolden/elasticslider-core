@@ -4,6 +4,8 @@
 // ============================================================================
 
 .ElasticSlider-item {
+    // Easily change the easing by replacing the cubic-bezier values below.
+    // You can find various easing functions from http://easings.net/
     $easeInOutExpo: cubic-bezier(0.95, 0.05, 0.795, 0.035);
 
     // Clone
@@ -17,7 +19,7 @@
     &--animateNextSlideStart {
         left: 0%;
     }
-    
+
     // Direction Prev
     &--animatePrevSlideInit {
         top: 0%;
