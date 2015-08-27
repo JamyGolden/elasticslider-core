@@ -17,7 +17,7 @@
                 type: Object,
                 value: function() {
                     return {}
-                }
+                },
             },
             activeSlide: {
                 type: Number,
@@ -29,11 +29,7 @@
                 value: function() {
                     return false;
                 },
-                observer: 'test'
             }
-        },
-        test: function(a) {
-            console.log(a)
         },
         setActive: function () {
             if (this.isDisabled === false) {
