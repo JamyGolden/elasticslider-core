@@ -30,6 +30,8 @@ class ElasticSlider {
         this._animationFunctionHash = {};
         this._slideCount = null;
         this._initialAnimationDelay = 50; // ms in which animation begins
+        this._startAnimationUserCallback = function(){};
+        this._endAnimationUserCallback = function(){};
 
         // Create animations
         // ====================================================================
@@ -66,7 +68,12 @@ class ElasticSlider {
         this.elementList.containerEl.removeChild(this.elementList.cloneEl);
     }
 
-    toSlide(index, animateType) {
+    toSlide(params) {
+        let index = params.index;
+        let animateType = params.animate || 'slide';
+        let startAnimationCallback = params.startAnimationCallback;
+        let endAnimationCallback = params.endAnimationCallback;
+
         // Don't animate to the same slide
         // Don't animate while animating
         if (
@@ -87,7 +94,17 @@ class ElasticSlider {
         this.setProp('nextActiveSlideIndex', index);
         this.setProp('isAnimating', true);
 
+        // Set callback animations
+        if (typeof startAnimationCallback === 'function') {
+            this._startAnimationUserCallback = startAnimationCallback;
+        }
+
+        if (typeof endAnimationCallback === 'function') {
+            this._endAnimationUserCallback = endAnimationCallback;
+        }
+
         if (animateType) {
+            this._startAnimationUserCallback();
             this._animationFunctionHash[animateType](this, index + 1)
         } else {
             this._endSlide(index);
@@ -161,6 +178,13 @@ class ElasticSlider {
         // Remove clone
         this.elementList.containerEl.removeChild(this.elementList.cloneEl);
         this.elementList.cloneEl = null;
+
+        // `toSlide` callback
+        this._endAnimationUserCallback();
+
+        // Reset callbacks
+        this._startAnimationUserCallback = function() {};
+        this._endAnimationUserCallback = function() {};
     }
 
     _setActiveSlide(index) {
@@ -222,7 +246,6 @@ class ElasticSlider {
             else {
                 direction = 'Prev';
             };
-
 
             this.animationInit(function() {
                 this.elementList.cloneEl.classList.add(

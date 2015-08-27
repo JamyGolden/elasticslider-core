@@ -1,8 +1,8 @@
 <link rel="import"
  href="bower_components/polymer/polymer.html">
 
-<dom-module id="elastic-slider">
-
+ <dom-module id="elastic-slider">
+    <link rel="import" href="elastic-slider-pagi-item.html">
     <link rel="stylesheet" href="css/ElasticSlider.css">
 
     <template>
@@ -12,14 +12,14 @@
         </div>
 
         <template is="dom-if"
-         if="{{enableArrows}}">
+          if="{{enableArrows}}">
             <div class="ElasticSlider-arrowList">
 
-                 <template is="dom-repeat"
-                  items="{{arrowArr}}">
-                     <div on-click="toSlide"
-                      class="ElasticSlider-pagiItem">{{item}}</div>
-                 </template>
+                <template is="dom-repeat"
+                   items="{{arrowArr}}">
+                    <div on-click="clickToSlide"
+                     class="ElasticSlider-arrowItem">{{item}}</div>
+                </template>
 
             </div>
         </template>
@@ -29,16 +29,17 @@
             <div class="ElasticSlider-pagiList">
 
                 <template is="dom-repeat"
-                 items="{{pagiArr}}">
-                    <div on-click="toSlide"
-                     class="ElasticSlider-pagiItem">{{item}}</div>
+                  items="{{pagiArr}}">
+                    <elastic-slider-pagi-item model="{{item}}"
+                     active-slide="{{activeSlide}}"
+                     is-disabled={{disablePagi}}></elastic-slider-pagi-item>
                 </template>
 
             </div>
         </template>
-    </template>
+     </template>
 
     <script src="js/elasticslider.js"></script>
+    <script src="js/elasticslider-pagi-item.js"></script>
     <script src="js/polymer-elasticslider.js"></script>
-
-</dom-module>
+ </dom-module>
