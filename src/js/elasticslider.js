@@ -73,7 +73,7 @@ class ElasticSlider {
         params = params || {};
 
         let index = params.index;
-        let animateType = params.animate || 'slide';
+        let animateType = params.animate || this.options.animation || 'slide';
         let startAnimationCallback = params.startAnimationCallback;
         let endAnimationCallback = params.endAnimationCallback;
 
