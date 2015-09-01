@@ -58,6 +58,8 @@ class ElasticSlider {
         }
 
         this._setActiveSlide(this.getProp('activeSlideIndex'));
+
+        this._addCustomAnimationFunctions();
     }
 
     // ====================================================================
@@ -221,6 +223,8 @@ class ElasticSlider {
         this.elementList.containerEl.appendChild(this.elementList.cloneEl);
     }
 
+    // Animations. These are the default animations. Any extra animations
+    // should be added via the external add method
     _createAnimationFunctions() {
         this.addAnimationFunction('fade', function()  {
             this.animationInit(function() {
@@ -280,5 +284,16 @@ class ElasticSlider {
                 this.removeProp('animationDirection');
             });
         });
+    }
+
+    // Allows for animations functions to be inserted from an external source
+    _addCustomAnimationFunctions() {
+        let customAnimationMap = window.elasticSliderAnimationMap;
+
+        if (typeof customAnimationMap === 'object') {
+            for (let name in customAnimationMap) {
+                this.addAnimationFunction(name, customAnimationMap[name]);
+            }
+        }
     }
 }
