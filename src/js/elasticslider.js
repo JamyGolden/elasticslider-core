@@ -69,6 +69,9 @@ class ElasticSlider {
     }
 
     toSlide(params) {
+        // Forces invalid property checks to return undefined
+        params = params || {};
+
         let index = params.index;
         let animateType = params.animate || 'slide';
         let startAnimationCallback = params.startAnimationCallback;
