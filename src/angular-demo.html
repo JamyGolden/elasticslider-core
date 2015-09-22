@@ -1,23 +1,34 @@
 <!doctype html>
-<html>
+<html ng-app="ElasticSliderApp">
 <head>
     <title>Elastic Slider</title>
-    <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-    <link rel="import" href="elastic-slider.html">
+    <link rel="stylesheet" href="css/ElasticSlider.css">
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="js/elasticslider.js"></script>
+    <script src="angular-elasticslider.js"></script>
+
     <style>
         .slider {
             height: 200px;
             width: 100%;
         }
     </style>
+
+    <script>(function(){
+        'use strict';
+
+        angular.module('ElasticSliderApp', [
+            'ngElasticSlider'
+        ]);
+    })();
+    </script>
 </head>
-<body unresolved>
+<body>
     <elastic-slider class="slider"
      animation="fade"
-     active-slide="3"
      auto-play-duration="8000"
-     enable-arrows
-     enable-pagination>
+     enable-arrows="true"
+     enable-pagination="true">
         <div class="something">
             Something
         </div>
@@ -36,10 +47,10 @@
 
     <elastic-slider class="slider"
      animation="slide"
-     active-slide="3"
+     active-slide="1"
      auto-play-duration="8000"
-     enable-arrows
-     enable-pagination>
+     enable-arrows="true"
+     enable-pagination="true">
         <div class="something">
             Something
         </div>

@@ -31,7 +31,7 @@ angular.module('ngElasticSlider', [])
             animation: '@',
         },
         transclude: true,
-        templateUrl: 'angular-elasticslider.html',
+        templateUrl: 'angular-elastic-slider.html',
         link: function(scope, element) {
 
             // Private properties
