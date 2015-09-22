@@ -107,7 +107,7 @@
             this.disablePagi = false;
 
             // Init slider
-            this._createPagi(this.totalSlides, this.pagiArr);
+            this.pagiArr = this._pagiFactory(this.totalSlides);
             this.slider = new ElasticSlider(this, sliderOptions);
 
             if (this.autoPlayDuration > 0) {
@@ -136,16 +136,18 @@
             window.clearInterval(this.autoPlayInterval);
         },
 
-        _createPagi: function(num, pagiArr) {
-            pagiArr.length = 0;
+        _pagiFactory: function(num) {
+            var arr = [];
 
             for (let i = 0; i < num; i++) {
-                pagiArr.push({
+                arr.push({
                     index: i,
                     isActive: (self.activeSlide - 1) === i,
                     type: 'pagi'
                 });
             }
+
+            return arr;
         },
 
         _getTargetIndex: function(num) {
