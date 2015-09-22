@@ -1,21 +1,11 @@
 {
   "name": "ElasticSlider",
-  "version": "0.0.1",
+  "version": "0.3.0",
   "description": "An agnostic and responsive slider.",
-  "main": "src/js/elasticslider.js",
-  "scripts": {
-    "start": "gulp dev"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/JamyGolden/ElasticSlider.git"
-  },
-  "contributors": [
-    {
-      "name": "Jamy Golden"
-    }
+  "main": "dist/elasticslider.js",
+  "files": [
+    "dist"
   ],
-  "license": "MIT",
   "dependencies": {},
   "devDependencies": {
     "del": "^2.0.2",
@@ -23,10 +13,20 @@
     "gulp-babel": "^5.2.1",
     "gulp-concat": "^2.6.0",
     "gulp-connect": "^2.2.0",
+    "gulp-header": "^1.7.1",
     "gulp-sass": "^2.0.4",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-strip-debug": "^1.0.2",
     "gulp-uglify": "^1.4.1",
     "vinyl-paths": "^2.0.0"
+  },
+  "scripts": {
+    "start": "gulp dev"
+  },
+  "author": "Jamy Golden",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JamyGolden/ElasticSlider.git"
   }
 }
