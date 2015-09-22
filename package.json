@@ -18,16 +18,15 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
-    "bower": "^1.4.1",
-    "del": "^1.2.0",
+    "del": "^2.0.2",
     "gulp": "^3.9.0",
-    "gulp-babel": "^5.1.0",
+    "gulp-babel": "^5.2.1",
     "gulp-concat": "^2.6.0",
     "gulp-connect": "^2.2.0",
     "gulp-sass": "^2.0.4",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-strip-debug": "^1.0.2",
-    "gulp-uglify": "^1.2.0",
-    "vinyl-paths": "^1.0.0"
+    "gulp-uglify": "^1.4.1",
+    "vinyl-paths": "^2.0.0"
   }
 }
