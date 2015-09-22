@@ -1,12 +1,3 @@
-// ============================================================================
-// ElasticSlider Pagination Item
-// Polymer element used within ElasticSlider
-// Version: "0.0.1"
-// Jamy Golden (http://css-plus.com/)
-// https://github.com/JamyGolden/ElasticSlider
-// License: MIT
-// ============================================================================
-
 (function(){
     'use strict';
 

@@ -1,12 +1,3 @@
-// ============================================================================
-// ElasticSlider
-// Description still needed.
-// Version: "0.0.1"
-// Jamy Golden (http://css-plus.com/)
-// https://github.com/JamyGolden/ElasticSlider
-// License: MIT
-// ============================================================================
-
 (function(){
     'use strict';
 
@@ -44,7 +35,7 @@
         updatePagi: function(itemNum) {
             if (!this.slider) return; // This triggers on init
 
-            this.toSlide(itemNum-1);
+            this.toSlide(itemNum - 1);
         },
 
         clickToSlide: function(e) {
@@ -53,13 +44,13 @@
 
             // Determine next slide index
             if (typeof val === 'number') {
-                index = val-1;
+                index = val - 1;
             } else if (val === 'Prev'){
-                index = this.slider.getProp('activeSlideIndex') -1;
+                index = this.slider.getProp('activeSlideIndex') - 1;
 
                 this.slider.setProp('animationDirection', 'Prev');
             } else {
-                index = this.slider.getProp('activeSlideIndex') +1;
+                index = this.slider.getProp('activeSlideIndex') + 1;
 
                 this.slider.setProp('animationDirection', 'Next');
             }

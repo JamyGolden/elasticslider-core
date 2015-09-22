@@ -1,10 +1,3 @@
-// ============================================================================
-// ElasticSlider
-// Author: Jamy Golden (http://css-plus.com/)
-// Link: https://github.com/JamyGolden/ElasticSlider
-// License: MIT
-// ============================================================================
-
 (function(window, angular, undefined){
 'use strict';
 

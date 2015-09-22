@@ -1,15 +1,8 @@
-// ============================================================================
-// ElasticSlider
-// Description still needed.
-// Version: "0.0.1"
-// Jamy Golden (http://css-plus.com/)
-// https://github.com/JamyGolden/ElasticSlider
-// License: MIT
-// ============================================================================
 'use strict'
 
 class ElasticSlider {
     constructor(el, options) {
+
         // Public properties
         // ====================================================================
         this.NAMESPACE = 'ElasticSlider';
@@ -19,10 +12,10 @@ class ElasticSlider {
             'itemActive': `${this.NAMESPACE}-item--isActive`,
             'itemClone': `${this.NAMESPACE}-item--clone`,
         }
-        this.options = options;
+        this.options = this._filterOptions(options);
         this.properties = {};
-        this.setProp('activeSlideIndex', options.activeSlide - 1);
-        this.setProp('nextActiveSlideIndex', null);
+        this.setProp('activeSlideIndex', this.options.activeSlide - 1);
+        this.setProp('nextActiveSlideIndex', this.options.activeSlide);
         this.setProp('isAnimating', false);
 
         // Private properties
@@ -75,7 +68,7 @@ class ElasticSlider {
         params = params || {};
 
         let index = params.index;
-        let animateType = params.animate || this.options.animation || 'slide';
+        let animateType = params.animate || this.options.animation;
         let startAnimationCallback = params.startAnimationCallback;
         let endAnimationCallback = params.endAnimationCallback;
 
@@ -175,6 +168,13 @@ class ElasticSlider {
     // ====================================================================
     // Private methods
     // ====================================================================
+
+    _filterOptions(o) {
+        if (!o.activeSlide) o.activeSlide = 0;
+        if (!o.animation) o.animation = 'slide';
+
+        return o;
+    }
 
     _endSlide() {
         this._setActiveSlide();

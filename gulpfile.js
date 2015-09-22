@@ -9,6 +9,15 @@
     var vinylPaths = require('vinyl-paths');
     var del = require('del');
     var stripDebug = require('gulp-strip-debug');
+    var header = require('gulp-header');
+    var pkg = require('./package.json');
+    var banner = ['/**',
+        ' * <%= pkg.name %> - <%= pkg.description %>',
+        ' * @version v<%= pkg.version %>',
+        ' * @link <%= pkg.homepage %>',
+        ' * @license <%= pkg.license %>',
+        ' */',
+        ''].join('\n');
 
     // Develop build
     // ========================================================================
@@ -71,6 +80,7 @@
             .pipe(babel())
             .pipe(concat('elasticslider.min.js'))
             .pipe(uglify())
+            .pipe(header(banner, { pkg : pkg } ))
             .pipe(gulp.dest('dist'));
     });
 
