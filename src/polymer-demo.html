@@ -3,7 +3,7 @@
 <head>
     <title>Elastic Slider</title>
     <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-    <link rel="import" href="elastic-slider.html">
+    <link rel="import" href="polymer-elastic-slider.html">
     <style>
         .slider {
             height: 200px;
@@ -13,7 +13,9 @@
 </head>
 <body unresolved>
     <elastic-slider class="slider"
+     animation="fade"
      active-slide="3"
+     auto-play-duration="8000"
      enable-arrows
      enable-pagination>
         <div class="something">
@@ -23,14 +25,35 @@
             testing slide
         </div>
 
-        <div style="background-color: blue">
+        <div style="background-color: lightblue">
             bleh
         </div>
 
         <div style="background-color: purple">
             meh
         </div>
+    </elastic-slider>
 
+    <elastic-slider class="slider"
+     animation="slide"
+     active-slide="3"
+     auto-play-duration="8000"
+     enable-arrows
+     enable-pagination>
+        <div class="something">
+            Something
+        </div>
+        <div style="background-color: papayawhip">
+            testing slide
+        </div>
+
+        <div style="background-color: lightblue">
+            bleh
+        </div>
+
+        <div style="background-color: purple">
+            meh
+        </div>
     </elastic-slider>
 </body>
 </html>

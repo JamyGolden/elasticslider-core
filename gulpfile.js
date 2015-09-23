@@ -6,9 +6,17 @@
     var connect = require('gulp-connect');
     var babel = require('gulp-babel');
     var uglify = require('gulp-uglify');
-    var vinylPaths = require('vinyl-paths');
     var del = require('del');
-    var stripDebug = require('gulp-strip-debug');
+    var replace = require('gulp-replace');
+    var header = require('gulp-header');
+    var pkg = require('./package.json');
+    var banner = ['/**',
+        ' * <%= pkg.name %> - <%= pkg.description %>',
+        ' * @version v<%= pkg.version %>',
+        ' * @link <%= pkg.homepage %>',
+        ' * @license <%= pkg.license %>',
+        ' */',
+        ''].join('\n');
 
     // Develop build
     // ========================================================================
@@ -60,20 +68,58 @@
 
     // Production build
     // ========================================================================
-    gulp.task('prod:clean', function () {
-        return gulp.src('dist/*')
-            .pipe(stripDebug())
-            .pipe(vinylPaths(del));
+    gulp.task('prod:clean', function (cb) {
+        return del(['dist'], cb);
     });
 
-    gulp.task('prod:build', function () {
-        gulp.src('src/js/*.js')
+    gulp.task('prod:angular', ['prod:clean'], function () {
+        gulp.src('src/angular-elastic-slider.html')
+            .pipe(gulp.dest('dist/angular'))
+
+        gulp.src('src/angular-*.js')
+            .pipe(babel())
+            .pipe(concat('angular-elasticslider.min.js'))
+            .pipe(uglify())
+            .pipe(header(banner, { pkg : pkg } ))
+            .pipe(gulp.dest('dist/angular'));
+
+    });
+
+    gulp.task('prod:polymer', ['prod:clean'], function () {
+        gulp.src('src/polymer-elastic-slider.html')
+            .pipe(replace(
+                '"js/elasticslider.js"',
+                '"elasticslider.min.js"'
+            ))
+            .pipe(replace(
+                '"polymer-elasticslider.js"',
+                '"polymer-elasticslider.min.js"'
+            ))
+            .pipe(replace(
+                '<script src="polymer-elasticslider-pagi-item.js"></script>',
+                ''
+            ))
+            .pipe(gulp.dest('dist/polymer'));
+
+        gulp.src('src/polymer-*.js')
+            .pipe(babel())
+            .pipe(concat('polymer-elasticslider.min.js'))
+            .pipe(uglify())
+            .pipe(header(banner, { pkg : pkg } ))
+            .pipe(gulp.dest('dist/polymer'));
+
+    });
+
+    gulp.task('prod:build', ['prod:clean'], function () {
+        return gulp.src('src/js/elasticslider.js')
             .pipe(babel())
             .pipe(concat('elasticslider.min.js'))
             .pipe(uglify())
-            .pipe(gulp.dest('dist'));
+            .pipe(header(banner, { pkg : pkg } ))
+            .pipe(gulp.dest('dist/angular'))
+            .pipe(gulp.dest('dist/polymer'));
     });
 
     gulp.task('dev', ['sass', 'js', 'connect', 'watch']);
-    gulp.task('prod', ['prod:clean', 'prod:build']);
+    gulp.task('prod', ['prod:build', 'prod:angular', 'prod:polymer']);
 })();
