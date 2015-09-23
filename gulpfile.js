@@ -95,6 +95,10 @@
                 '"polymer-elasticslider.js"',
                 '"polymer-elasticslider.min.js"'
             ))
+            .pipe(replace(
+                '<script src="polymer-elasticslider-pagi-item.js"></script>',
+                ''
+            ))
             .pipe(gulp.dest('dist/polymer'));
 
         gulp.src('src/polymer-*.js')
