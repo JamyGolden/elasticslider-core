@@ -1,9 +1,3 @@
-# Project specific
-*.css.map
-src/css
-src/js/*.min.js
-src/js/*.map
-
 # Text editors
 *.sublime-project
 *.sublime-workspace
