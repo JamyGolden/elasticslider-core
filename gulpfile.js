@@ -33,11 +33,11 @@ gulp.task('watch', function () {
 
 // Dist build
 // ============================================================================
-gulp.task('clean', function (cb) {
+gulp.task('dist:clean', function (cb) {
     return del(['dist'], cb);
 });
 
-gulp.task('build', ['clean'], function () {
+gulp.task('dist:build', ['dist:clean'], function () {
     return gulp.src('src/elasticslider.js')
         .pipe(concat('elasticslider.min.js'))
         .pipe(babel())
@@ -49,4 +49,4 @@ gulp.task('build', ['clean'], function () {
 // Tasks
 // ============================================================================
 gulp.task('serve', ['js', 'watch']);
-gulp.task('default', ['build']);
+gulp.task('default', ['dist:build']);
