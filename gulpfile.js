@@ -31,7 +31,7 @@ gulp.task('watch', function () {
     gulp.watch('src/elasticslider.js', ['js']);
 });
 
-// Production build
+// Dist build
 // ============================================================================
 gulp.task('clean', function (cb) {
     return del(['dist'], cb);
@@ -46,5 +46,7 @@ gulp.task('build', ['clean'], function () {
         .pipe(gulp.dest('dist'))
 });
 
+// Tasks
+// ============================================================================
 gulp.task('serve', ['js', 'watch']);
 gulp.task('default', ['build']);
