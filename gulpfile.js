@@ -3,6 +3,7 @@
     var sourcemaps = require('gulp-sourcemaps');
     var concat = require('gulp-concat');
     var babel = require('gulp-babel');
+    var del = require('del');
     var uglify = require('gulp-uglify');
     var header = require('gulp-header');
     var pkg = require('./package.json');
@@ -24,12 +25,11 @@
             .pipe(babel())
             .pipe(concat('elasticslider.min.js'))
             .pipe(sourcemaps.write('.'))
-            .pipe(gulp.dest('src/js/'))
-            .pipe(connect.reload());
+            .pipe(gulp.dest('src/js/'));
     });
 
     gulp.task('watch', function () {
-        gulp.watch('src/js/**/*.js', ['js']);
+        gulp.watch('src/elasticslider.js', ['js']);
     });
 
     // Production build
@@ -39,7 +39,7 @@
     });
 
     gulp.task('build', ['clean'], function () {
-        return gulp.src('src/js/elasticslider.js')
+        return gulp.src('src/elasticslider.js')
             .pipe(concat('elasticslider.min.js'))
             .pipe(babel())
             .pipe(uglify())
