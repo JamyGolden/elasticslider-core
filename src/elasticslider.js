@@ -68,11 +68,17 @@ class ElasticSlider {
     // May be useful in future. No events to remove.
     destroy() {
         this.elementList.containerEl.removeChild(this.elementList.cloneEl);
+
+        for (let k in CLASS_NAME_LIST) {
+            let element = document.querySelector(`.${this.CLASS_NAME_LIST[k]}`);
+            element.classList.remove(`${this.CLASS_NAME_LIST[k]}`);
+        }
     }
 
-    toSlide(params) {
-        // Forces invalid property checks to return undefined
-        params = params || {};
+    toSlide(params = {}) {
+        // Shorthand
+        // Allow for optional index to be passed in instead of object literal
+        // if (!this._typeTest('object', params)) params = {};
 
         let index = params.index;
         let animateType = params.animate || this.options.animation;
@@ -89,7 +95,7 @@ class ElasticSlider {
         };
 
         // Handle invalid index values
-        if (typeof index !== 'number' || index > this._slideCount - 1) {
+        if (!this._typeTest('number', index) || index > this._slideCount - 1) {
             index = 0;
         } else if (index < 0) {
             index = this._slideCount - 1;
@@ -100,15 +106,15 @@ class ElasticSlider {
         this.setProp('isAnimating', true);
 
         // Set callback animations
-        if (typeof startAnimationCallback === 'function') {
+        if (this._typeTest('function', startAnimationCallback)) {
             this._startAnimationUserCallback = startAnimationCallback;
         }
 
-        if (typeof endAnimationCallback === 'function') {
+        if (this._typeTest('function', endAnimationCallback)) {
             this._endAnimationUserCallback = endAnimationCallback;
         }
 
-        if (animateType) {
+        if (this._typeTest('string', animateType)) {
             this._startAnimationUserCallback();
             this._animationFunctionHash[animateType](this, index + 1)
         } else {
@@ -117,7 +123,7 @@ class ElasticSlider {
     }
 
     animationInit(cb) {
-        if (typeof cb === 'function') {
+        if (this._typeTest('function', cb)) {
             // Run the method in context of the class
             cb = cb.bind(this);
             cb();
@@ -129,7 +135,7 @@ class ElasticSlider {
 
         // Defer
         window.setTimeout(() => {
-            if (typeof cb === 'function') {
+            if (this._typeTest('function', cb)) {
                 // Run the method in context of the class
                 cb = cb.bind(self);
                 cb();
@@ -137,12 +143,12 @@ class ElasticSlider {
         }, this._initialAnimationDelay);
     }
 
-    animationEnd(duration, cb) {
+    animationEnd(duration = 100, cb) {
         let self = this;
-        let totalDuration = (duration || 100) + this._initialAnimationDelay;
+        let totalDuration = (duration) + this._initialAnimationDelay;
 
         window.setTimeout(() => {
-            if (typeof cb === 'function') {
+            if (this._typeTest('function', cb)) {
                 // Run the method in context of the class
                 cb = cb.bind(self);
                 cb();
@@ -175,14 +181,10 @@ class ElasticSlider {
     // ====================================================================
     // Private methods
     // ====================================================================
-    _filterOptions(o) {
-        // `o` must be an object literal
-        if (!o || typeof o !== 'object') {
-            o = {};
-        }
+    _filterOptions(o = {}) {
 
-        if (!o.activeSlide) o.activeSlide = 1;
-        if (!o.animation) o.animation = 'slide';
+        if (!this._typeTest('number', o.activeSlide)) o.activeSlide = 1;
+        if (!this._typeTest('string', o.animation)) o.animation = 'slide';
 
         return o;
     }
@@ -217,10 +219,7 @@ class ElasticSlider {
         this._endAnimationUserCallback = () => {};
     }
 
-    _setActiveSlide(index) {
-        // Use slide pased in or the next slide
-        if (!index) index = this.getProp('nextActiveSlideIndex');
-
+    _setActiveSlide(index = this.getProp('nextActiveSlideIndex')) {
         // Remove the active class name from all elements
         for (let i = 0; i < this.elementList.slideArr.length; i++) {
             let slide = this.elementList.slideArr[i];
@@ -315,10 +314,53 @@ class ElasticSlider {
     _addCustomAnimationFunctions() {
         let customAnimationMap = window.elasticSliderAnimationMap;
 
-        if (typeof customAnimationMap === 'object') {
+        if (this._typeTest('object', customAnimationMap)) {
             for (let name in customAnimationMap) {
                 this.addAnimationFunction(name, customAnimationMap[name]);
             }
         }
+    }
+
+    _typeTest(type, item) {
+        let pass = false;
+
+        switch (type) {
+            case 'object':
+                if (typeof item === 'object' && item !== null && typeof item.length === 'undefined') {
+                    pass = true;
+                }
+                break;
+
+            case 'array':
+                if (typeof item === 'object' && item !== null && typeof item.length === 'number') {
+                    pass = true;
+                }
+                break;
+
+            case 'function':
+                if (typeof item === 'function') {
+                    pass = true;
+                }
+
+            case 'string':
+                if (typeof item === 'string') {
+                    pass = true;
+                }
+                break;
+
+            case 'boolean':
+                if (typeof item === 'boolean') {
+                    pass = true;
+                }
+                break;
+
+            case 'number':
+                if (typeof item === 'number' && !isNaN(item)) {
+                    pass = true;
+                }
+                break;
+        }
+
+        return pass;
     }
 }
