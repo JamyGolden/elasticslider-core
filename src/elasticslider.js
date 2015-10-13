@@ -6,17 +6,18 @@ class ElasticSlider {
         // Public properties
         // ====================================================================
         this.NAMESPACE = 'ElasticSlider';
+        this.options = this._filterOptions(options);
         this.CLASS_NAME_LIST = {
             'container': `${this.NAMESPACE}-container`,
             'item': `${this.NAMESPACE}-item`,
             'itemActive': `${this.NAMESPACE}-item--isActive`,
             'itemClone': `${this.NAMESPACE}-item--clone`,
         }
-        this.options = this._filterOptions(options);
-        this.properties = {};
-        this.setProp('activeSlideIndex', this.options.activeSlide - 1);
-        this.setProp('nextActiveSlideIndex', this.options.activeSlide);
-        this.setProp('isAnimating', false);
+        this._properties = {};
+
+        // Class requirement pass check
+        // ====================================================================
+        this._checkClassRequirements(el);
 
         // Private properties
         // ====================================================================
@@ -39,6 +40,12 @@ class ElasticSlider {
         this.elementList.slideActiveEl = this.elementList.slideArr[options.activeSlide - 1];
         this.elementList.cloneEl = null;
         this._slideCount = this.elementList.slideArr.length;
+
+        // Run methods
+        // ====================================================================
+        this.setProp('activeSlideIndex', this.options.activeSlide - 1);
+        this.setProp('nextActiveSlideIndex', this.options.activeSlide);
+        this.setProp('isAnimating', false);
 
         // DOM manipulation
         // ====================================================================
@@ -154,15 +161,15 @@ class ElasticSlider {
     }
 
     getProp(propName) {
-        return this.properties[propName];
+        return this._properties[propName];
     }
 
     setProp(propName, val) {
-        this.properties[propName] = val;
+        this._properties[propName] = val;
     }
 
     removeProp(propName, val) {
-        delete this.properties[propName];
+        delete this._properties[propName];
     }
 
     // ====================================================================
