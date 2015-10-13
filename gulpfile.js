@@ -22,7 +22,7 @@ gulp.task('js', function () {
         ])
         .pipe(sourcemaps.init())
         .pipe(babel())
-        .pipe(concat('elasticslider.min.js'))
+        .pipe(concat('elasticslider-core.min.js'))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('src/js/'));
 });
@@ -39,7 +39,7 @@ gulp.task('dist:clean', function (cb) {
 
 gulp.task('dist:build', ['dist:clean'], function () {
     return gulp.src('src/elasticslider.js')
-        .pipe(concat('elasticslider.min.js'))
+        .pipe(concat('elasticslider-core.min.js'))
         .pipe(babel())
         .pipe(uglify())
         .pipe(header(banner, { pkg : pkg } ))

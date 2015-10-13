@@ -1,7 +1,7 @@
 {
-  "name": "elasticslider",
-  "main": "dist/elasticslider.min.js",
-  "version": "0.4.0",
+  "name": "elasticslider-core",
+  "main": "dist/elasticslider-core.min.js",
+  "version": "0.4.1",
   "authors": [
     "Jamy Golden <jamygolden@gmail.com>"
   ],
@@ -12,7 +12,7 @@
     "carousel"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/JamyGolden/ElasticSlider/",
+  "homepage": "https://github.com/JamyGolden/ElasticSlider-core/",
   "ignore": [
     "**/.*",
     "node_modules",
