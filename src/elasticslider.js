@@ -67,12 +67,15 @@ class ElasticSlider {
     // ====================================================================
     // May be useful in future. No events to remove.
     destroy() {
-        this.elementList.containerEl.removeChild(this.elementList.cloneEl);
-
-        for (let k in CLASS_NAME_LIST) {
+        for (let k in this.CLASS_NAME_LIST) {
             let element = document.querySelector(`.${this.CLASS_NAME_LIST[k]}`);
-            element.classList.remove(`${this.CLASS_NAME_LIST[k]}`);
+
+            if (element) {
+                element.classList.remove(`${this.CLASS_NAME_LIST[k]}`);
+            }
         }
+
+        this.elementList.slider.classList.remove(this.NAMESPACE);
     }
 
     toSlide(params = {}) {
