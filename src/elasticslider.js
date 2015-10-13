@@ -37,7 +37,7 @@ class ElasticSlider {
         this.elementList.slider = el;
         this.elementList.containerEl = this.elementList.slider.querySelector(`.${this.CLASS_NAME_LIST.container}`);
         this.elementList.slideArr = this.elementList.containerEl.children;
-        this.elementList.slideActiveEl = this.elementList.slideArr[options.activeSlide - 1];
+        this.elementList.slideActiveEl = this.elementList.slideArr[this.options.activeSlide - 1];
         this.elementList.cloneEl = null;
         this._slideCount = this.elementList.slideArr.length;
 
