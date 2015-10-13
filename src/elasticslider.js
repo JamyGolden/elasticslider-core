@@ -187,6 +187,20 @@ class ElasticSlider {
         return o;
     }
 
+    _checkClassRequirements(el) {
+        let requiredElementsArr = [
+            this.CLASS_NAME_LIST.container
+        ];
+
+        requiredElementsArr.forEach((item) => {
+            let element = el.querySelector(`.${item}`);
+
+            if (!element) {
+                throw `Required element .${item} missing. Please use an ElasticSlider UI plugin or read the documentation.`;
+            }
+        });
+    }
+
     _endSlide() {
         this._setActiveSlide();
         this.setProp('isAnimating', false);
