@@ -23,8 +23,8 @@ class ElasticSlider {
         this._animationFunctionHash = {};
         this._slideCount = null;
         this._initialAnimationDelay = 50; // ms in which animation begins
-        this._startAnimationUserCallback = function(){};
-        this._endAnimationUserCallback = function(){};
+        this._startAnimationUserCallback = () => {};
+        this._endAnimationUserCallback = () => {};
 
         // Create animations
         // ====================================================================
@@ -121,7 +121,7 @@ class ElasticSlider {
         var self = this;
 
         // Defer
-        window.setTimeout(function() {
+        window.setTimeout(() => {
             if (typeof cb === 'function') {
                 // Run the method in context of the class
                 cb = cb.bind(self);
@@ -134,7 +134,7 @@ class ElasticSlider {
         var self = this;
         var totalDuration = (duration || 100) + this._initialAnimationDelay;
 
-        window.setTimeout(function() {
+        window.setTimeout(() => {
             if (typeof cb === 'function') {
                 // Run the method in context of the class
                 cb = cb.bind(self);
@@ -188,8 +188,8 @@ class ElasticSlider {
         this._endAnimationUserCallback();
 
         // Reset callbacks
-        this._startAnimationUserCallback = function() {};
-        this._endAnimationUserCallback = function() {};
+        this._startAnimationUserCallback = () => {};
+        this._endAnimationUserCallback = () => {};
     }
 
     _setActiveSlide(index) {
@@ -226,19 +226,19 @@ class ElasticSlider {
     // Animations. These are the default animations. Any extra animations
     // should be added via the external add method
     _createAnimationFunctions() {
-        this.addAnimationFunction('fade', function()  {
-            this.animationInit(function() {
+        this.addAnimationFunction('fade', () =>  {
+            this.animationInit(() => {
                 this.elementList.cloneEl.classList.add(`${this.NAMESPACE}-item--animateFadeInit`);
             });
 
-            this.animationStart(function() {
+            this.animationStart(() => {
                 this.elementList.cloneEl.classList.add(`${this.NAMESPACE}-item--animateFadeStart`);
             });
 
             this.animationEnd(600);
         });
 
-        this.addAnimationFunction('slide', function() {
+        this.addAnimationFunction('slide', () => {
             var direction = null; // Determines which direction to slide
             var animationDirection = this.getProp('animationDirection');
 
@@ -254,7 +254,7 @@ class ElasticSlider {
                 direction = 'Prev';
             };
 
-            this.animationInit(function() {
+            this.animationInit(() => {
                 this.elementList.cloneEl.classList.add(
                     `${this.NAMESPACE}-item--animate${direction}SlideInit`
                 );
@@ -263,7 +263,7 @@ class ElasticSlider {
                 );
             });
 
-            this.animationStart(function() {
+            this.animationStart(() => {
                 this.elementList.cloneEl.classList.add(
                     `${this.NAMESPACE}-item--animate${direction}SlideStart`
                 );
@@ -272,7 +272,7 @@ class ElasticSlider {
                 );
             });
 
-            this.animationEnd(1000, function(){
+            this.animationEnd(1000, () => {
                 this.elementList.slideActiveEl.classList.remove(
                     `${this.NAMESPACE}-item--animateActive${direction}SlideInit`
                 );
