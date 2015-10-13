@@ -76,14 +76,17 @@ class ElasticSlider {
     }
 
     toSlide(params = {}) {
-        // Shorthand
-        // Allow for optional index to be passed in instead of object literal
-        // if (!this._typeTest('object', params)) params = {};
+        let {
+            index,
+            animation,
+            startAnimationCallback,
+            endAnimationCallback
+        } = params;
 
-        let index = params.index;
-        let animateType = params.animate || this.options.animation;
-        let startAnimationCallback = params.startAnimationCallback;
-        let endAnimationCallback = params.endAnimationCallback;
+        // `animation` fallback
+        if (!this._typeTest('string', animation)) {
+            animation = this.options.animation;
+        }
 
         // Don't animate to the same slide
         // Don't animate while animating
@@ -114,9 +117,9 @@ class ElasticSlider {
             this._endAnimationUserCallback = endAnimationCallback;
         }
 
-        if (this._typeTest('string', animateType)) {
+        if (this._typeTest('string', animation)) {
             this._startAnimationUserCallback();
-            this._animationFunctionHash[animateType](this, index + 1)
+            this._animationFunctionHash[animation](this, index + 1)
         } else {
             this._endSlide(index);
         }
