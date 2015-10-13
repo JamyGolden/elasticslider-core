@@ -44,8 +44,8 @@ class ElasticSlider {
         // ====================================================================
         this.elementList.slider.classList.add(this.NAMESPACE);
 
-        for (var i = 0; i < this.elementList.slideArr.length; i++) {
-            var itemEl = this.elementList.slideArr[i]
+        for (let i = 0; i < this.elementList.slideArr.length; i++) {
+            let itemEl = this.elementList.slideArr[i]
 
             itemEl.classList.add(this.CLASS_NAME_LIST.item);
         }
@@ -118,7 +118,7 @@ class ElasticSlider {
     }
 
     animationStart(cb) {
-        var self = this;
+        let self = this;
 
         // Defer
         window.setTimeout(() => {
@@ -131,8 +131,8 @@ class ElasticSlider {
     }
 
     animationEnd(duration, cb) {
-        var self = this;
-        var totalDuration = (duration || 100) + this._initialAnimationDelay;
+        let self = this;
+        let totalDuration = (duration || 100) + this._initialAnimationDelay;
 
         window.setTimeout(() => {
             if (typeof cb === 'function') {
@@ -197,8 +197,8 @@ class ElasticSlider {
         if (!index) index = this.getProp('nextActiveSlideIndex');
 
         // Remove the active class name from all elements
-        for (var i = 0; i < this.elementList.slideArr.length; i++) {
-            var slide = this.elementList.slideArr[i];
+        for (let i = 0; i < this.elementList.slideArr.length; i++) {
+            let slide = this.elementList.slideArr[i];
 
             slide.classList.remove(this.CLASS_NAME_LIST.itemActive);
         }
@@ -239,8 +239,8 @@ class ElasticSlider {
         });
 
         this.addAnimationFunction('slide', () => {
-            var direction = null; // Determines which direction to slide
-            var animationDirection = this.getProp('animationDirection');
+            let direction = null; // Determines which direction to slide
+            let animationDirection = this.getProp('animationDirection');
 
             // If an explicit direction has been set
             if (animationDirection) {
