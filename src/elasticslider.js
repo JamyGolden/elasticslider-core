@@ -13,7 +13,7 @@ class ElasticSlider {
             'itemActive': `${this.NAMESPACE}-item--isActive`,
             'itemClone': `${this.NAMESPACE}-item--clone`,
         }
-        this._properties = {};
+        this._properties = new Map();
 
         // Class requirement pass check
         // ====================================================================
@@ -170,15 +170,15 @@ class ElasticSlider {
     }
 
     getProp(propName) {
-        return this._properties[propName];
+        return this._properties.get(propName);
     }
 
     setProp(propName, val) {
-        this._properties[propName] = val;
+        this._properties.set(propName, val);
     }
 
     removeProp(propName, val) {
-        delete this._properties[propName];
+        this._properties.delete(propName);
     }
 
     // ====================================================================
