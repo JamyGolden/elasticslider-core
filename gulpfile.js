@@ -18,13 +18,13 @@ var banner = ['/**',
 // ============================================================================
 gulp.task('js', function () {
     gulp.src([
-            'src/js/elasticslider.js',
+            'src/elasticslider.js',
         ])
         .pipe(sourcemaps.init())
         .pipe(babel())
         .pipe(concat('elasticslider-core.min.js'))
         .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest('src/js/'));
+        .pipe(gulp.dest('src/'));
 });
 
 gulp.task('watch', function () {
