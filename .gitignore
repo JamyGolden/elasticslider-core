@@ -2,6 +2,8 @@
 *.sublime-project
 *.sublime-workspace
 .zedstate
+*.map
+src/elasticslider-core.min.js
 
 # Cache
 .cache/
