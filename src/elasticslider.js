@@ -175,9 +175,13 @@ class ElasticSlider {
     // ====================================================================
     // Private methods
     // ====================================================================
-
     _filterOptions(o) {
-        if (!o.activeSlide) o.activeSlide = 0;
+        // `o` must be an object literal
+        if (!o || typeof o !== 'object') {
+            o = {};
+        }
+
+        if (!o.activeSlide) o.activeSlide = 1;
         if (!o.animation) o.animation = 'slide';
 
         return o;
