@@ -1,6 +1,6 @@
 {
   "name": "ElasticSlider",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "An agnostic and responsive slider.",
   "main": "dist/elasticslider.min.js",
   "files": [
