@@ -86,6 +86,16 @@ class ElasticSlider {
             endAnimationCallback
         } = params;
 
+        // Fallback
+        // Allow for `params` to be a number.
+        if (this._typeTest('number', params)) {
+            params = { index: params };
+            index = params.index;
+        }
+        else if (!this._typeTest('object', params)) {
+            console.error('ElasticSlider.toSlide: params is expected to be an object. Eg. {index: 5}');
+        }
+
         // `animation` fallback
         if (!this._typeTest('string', animation)) {
             animation = this.options.animation;
