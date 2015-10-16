@@ -1,8 +1,8 @@
 {
-  "name": "ElasticSlider",
-  "version": "0.4.2",
-  "description": "An agnostic and responsive slider.",
+  "name": "ElasticSlider-core",
   "main": "dist/elasticslider.min.js",
+  "version": "0.4.3",
+  "description": "A carousel for developers.",
   "files": [
     "dist"
   ],
@@ -23,6 +23,6 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/JamyGolden/ElasticSlider.git"
+    "url": "https://github.com/JamyGolden/ElasticSlider-core.git"
   }
 }
