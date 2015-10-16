@@ -1,11 +1,11 @@
 {
   "name": "elasticslider-core",
   "main": "dist/elasticslider-core.min.js",
-  "version": "0.4.1",
+  "version": "0.4.3",
   "authors": [
     "Jamy Golden <jamygolden@gmail.com>"
   ],
-  "description": "An agnostic and responsive slider controller.",
+  "description": "A carousel for developers.",
   "keywords": [
     "elasticslider",
     "slider",
