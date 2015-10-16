@@ -165,7 +165,11 @@ class ElasticSlider {
     }
 
     addAnimationFunction(name, func) {
-        this._animationFunctionHash[name] = func.bind(this);
+        if (this._typeTest('string', name) && this._typeTest('function', func)) {
+            this._animationFunctionHash[name] = func.bind(this);
+        } else {
+            console.error('ElasticSlider.addAnimationFunction: Parameters must be name<String>, func<Function>');
+        }
     }
 
     getElement(elName) {
@@ -188,7 +192,6 @@ class ElasticSlider {
     // Private methods
     // ====================================================================
     _filterOptions(o = {}) {
-
         if (!this._typeTest('number', o.activeSlide)) o.activeSlide = 1;
         if (!this._typeTest('string', o.animation)) o.animation = 'slide';
 
