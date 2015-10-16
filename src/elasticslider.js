@@ -62,9 +62,9 @@ class ElasticSlider {
         this._addCustomAnimationFunctions();
     }
 
-    // ====================================================================
+    // ========================================================================
     // Public methods
-    // ====================================================================
+    // ========================================================================
     // May be useful in future. No events to remove.
     destroy() {
         for (let k in this.CLASS_NAME_LIST) {
@@ -188,9 +188,9 @@ class ElasticSlider {
         this._properties.delete(propName);
     }
 
-    // ====================================================================
+    // ========================================================================
     // Private methods
-    // ====================================================================
+    // ========================================================================
     _filterOptions(o = {}) {
         if (!this._typeTest('number', o.activeSlide)) o.activeSlide = 1;
         if (!this._typeTest('string', o.animation)) o.animation = 'slide';
@@ -274,13 +274,15 @@ class ElasticSlider {
         this.addAnimationFunction('slide', () => {
             let direction = null; // Determines which direction to slide
             let animationDirection = this.getProp('animationDirection');
+            let nextActiveSlideIndex = this.getProp('nextActiveSlideIndex')
+            let activeSlideIndex = this.getProp('activeSlideIndex')
 
             // If an explicit direction has been set
             if (animationDirection) {
                 direction = animationDirection;
             }
             // Otherwise greater index means next
-            else if (this.getProp('nextActiveSlideIndex') > this.getProp('activeSlideIndex')) {
+            else if (nextActiveSlideIndex > activeSlideIndex) {
                 direction = 'Next';
             }
             else {
@@ -335,13 +337,23 @@ class ElasticSlider {
 
         switch (type) {
             case 'object':
-                if (typeof item === 'object' && item !== null && typeof item.length === 'undefined') {
+                if (
+                    typeof item === 'object' &&
+                    item !== null &&
+                    typeof item.length === 'undefined'
+                ) {
+
                     pass = true;
+
                 }
                 break;
 
             case 'array':
-                if (typeof item === 'object' && item !== null && typeof item.length === 'number') {
+                if (
+                    typeof item === 'object' &&
+                    item !== null &&
+                    typeof item.length === 'number'
+                ) {
                     pass = true;
                 }
                 break;
