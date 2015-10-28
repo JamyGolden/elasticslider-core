@@ -68,10 +68,19 @@ class ElasticSlider {
     // May be useful in future. No events to remove.
     destroy() {
         for (let k in this.CLASS_NAME_LIST) {
-            let element = document.querySelector(`.${this.CLASS_NAME_LIST[k]}`);
+            // Only remove sub-module classes that begin with "item"
+            // The other items aren't added via the core plugin, so don't
+            // remove them.
+            if (k.indexOf('item') !== 0) continue;
 
-            if (element) {
-                element.classList.remove(`${this.CLASS_NAME_LIST[k]}`);
+            let elementList = this.elementList.slider.querySelectorAll(`.${this.CLASS_NAME_LIST[k]}`);
+
+            if (elementList.length) {
+                // Loop through elements and remove classes
+                for (let i = 0; i < elementList.length; i++) {
+                    let element = elementList[i];
+                    element.classList.remove(`${this.CLASS_NAME_LIST[k]}`);
+                }
             }
         }
 
