@@ -302,10 +302,10 @@ class ElasticSlider {
             }
             // Otherwise greater index means next
             else if (nextActiveSlideIndex > activeSlideIndex) {
-                direction = 'Next';
+                direction = 'next';
             }
             else {
-                direction = 'Prev';
+                direction = 'prev';
             };
 
             this.animationInit(() => {
