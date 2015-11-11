@@ -308,6 +308,9 @@ class ElasticSlider {
                 direction = 'prev';
             };
 
+            // Capitalise direction for class cammel case
+            direction = direction.substring(0, 1).toUpperCase() + direction.substring(1);
+
             this.animationInit(() => {
                 this.elementList.cloneEl.classList.add(
                     `${this.NAMESPACE}-item--animate${direction}SlideInit`
