@@ -126,6 +126,9 @@ class ElasticSlider {
             index = this._slideCount - 1;
         };
 
+        // pause
+        this._toggleActiveVideo(this.elementList.slideActiveEl.querySelectorAll('iframe'), false);
+
         this._createTransitionEl(index);
         this.setProp('nextActiveSlideIndex', index);
         this.setProp('isAnimating', true);
@@ -241,6 +244,9 @@ class ElasticSlider {
 
         // `toSlide` callback
         this._endAnimationUserCallback();
+
+        // Play any videos
+        this._toggleActiveVideo(this.elementList.slideActiveEl.querySelectorAll('iframe'), true);
 
         // Reset callbacks
         this._startAnimationUserCallback = () => {};
@@ -404,5 +410,23 @@ class ElasticSlider {
         }
 
         return pass;
+    }
+
+    // Play/pause youtube videos
+    _toggleActiveVideo(elArr, enableBool) {
+        var func = enableBool === true ? 'playVideo' : 'pauseVideo';
+
+        // If elements have been passed through
+        if (elArr.length) {
+            // Run a play/pause on all videos in the slide
+            for (var i = 0; i < elArr.length; i++) {
+                if (elArr[i].src.indexOf('enablejsapi=true') !== -1) {
+                    // Send the play/pause command
+                    elArr[i].contentWindow.postMessage(
+                        '{"event":"command","func":"' + func + '","args":""}', '*'
+                    );
+                }
+            }
+        }
     }
 }
