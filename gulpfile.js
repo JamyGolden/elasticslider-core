@@ -21,7 +21,9 @@ gulp.task('js', function () {
             'src/elasticslider.js',
         ])
         .pipe(sourcemaps.init())
-        .pipe(babel())
+        .pipe(babel({
+            presets: ['es2015']
+        }))
         .pipe(concat('elasticslider-core.min.js'))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('src/'));
