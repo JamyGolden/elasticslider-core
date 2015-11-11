@@ -364,9 +364,7 @@ class ElasticSlider {
                     item !== null &&
                     typeof item.length === 'undefined'
                 ) {
-
                     pass = true;
-
                 }
                 break;
 
@@ -384,6 +382,7 @@ class ElasticSlider {
                 if (typeof item === 'function') {
                     pass = true;
                 }
+                break;
 
             case 'string':
                 if (typeof item === 'string') {
