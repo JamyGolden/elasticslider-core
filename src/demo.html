@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+    <title>Elastic Slider</title>
+</head>
+<body>
+    <h1>
+        ElasticSlider-core
+    </h1>
+    <p>
+        This file is to play around with the core functionality within the browsers' developer tools.
+    </p>
+<pre><code>
+    window.slider.toSlide({index 3});
+</code></pre>
+
+    <div class="slider">
+        <div class="ElasticSlider-container">
+            <div class="something">
+                first slide
+            </div>
+            <div style="background-color: papayawhip">
+                testing slide
+            </div>
+
+            <div style="background-color: lightblue">
+                bleh
+            </div>
+
+            <div style="background-color: purple">
+                meh
+            </div>
+        </div>
+    </div>
+
+    <script src="elasticslider-core.min.js"></script>
+    <script>
+        var element = document.querySelector('.slider');
+        window.slider = new ElasticSlider(element);
+
+    </script>
+</body>
+</html>
