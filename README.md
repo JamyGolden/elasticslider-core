@@ -156,3 +156,6 @@ Default properties that can be get and set via `getProp` and `setProp`.
 
 ### `nextActiveSlideIndex`
 Setting this value affects which slide appears next. This value is for setting, not getting.
+
+## Run tests
+To run the QUnit tests, run `gulp test` and then navigate to (http://localhost:5000/test/)[http://localhost:5000/test/]

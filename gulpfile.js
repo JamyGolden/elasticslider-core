@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var sourcemaps = require('gulp-sourcemaps');
 var concat = require('gulp-concat');
+var connect = require('gulp-connect');
 var babel = require('gulp-babel');
 var del = require('del');
 var uglify = require('gulp-uglify');
@@ -50,7 +51,18 @@ gulp.task('dist:build', ['dist:clean'], function () {
         .pipe(gulp.dest('dist'))
 });
 
+// Test
+// ============================================================================
+gulp.task('connect', function() {
+    connect.server({
+        port: 5000,
+        root: './src',
+        livereload: false
+    });
+});
+
 // Tasks
 // ============================================================================
 gulp.task('serve', ['js', 'watch']);
+gulp.task('test', ['js', 'connect']);
 gulp.task('default', ['dist:build']);
