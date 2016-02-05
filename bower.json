@@ -1,7 +1,7 @@
 {
   "name": "elasticslider-core",
   "main": "dist/elasticslider-core.min.js",
-  "version": "0.4.7",
+  "version": "0.5.0",
   "authors": [
     "Jamy Golden <jamygolden@gmail.com>"
   ],
