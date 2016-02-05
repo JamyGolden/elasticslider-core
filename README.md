@@ -30,7 +30,7 @@ This option defaults to `"slide"`.
     </div>
 
 #### Javascript
-    var domElement = documenty.querySelector('.slider');
+    var domElement = document.querySelector('.slider');
     var elasticSlider = new ElasticSlider(domElement);
 
 ElasticSlider automatically turns child elements of `domElement` into slides.
@@ -71,6 +71,11 @@ To slide sets the slide animation in motion.
         endAnimationCallback: Function
     }
 
+
+`index`: Number. The index of the next slide.
+`animation`: String. _optional_ - The animation effect to be used.
+`startAnimationCallback`: Function. _optional_ - Callback that is run just before the animation starts.
+`endAnimationCallback`: Function. _optional_ - Callback that is run just as the animation ends.
 
 ### setProp
 Set property.
@@ -151,3 +156,6 @@ Default properties that can be get and set via `getProp` and `setProp`.
 
 ### `nextActiveSlideIndex`
 Setting this value affects which slide appears next. This value is for setting, not getting.
+
+## Run tests
+To run the QUnit tests, run `gulp test` and then navigate to (http://localhost:5000/test/)[http://localhost:5000/test/]

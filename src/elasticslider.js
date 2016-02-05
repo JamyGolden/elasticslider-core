@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 class ElasticSlider {
     constructor(el, options) {
@@ -429,4 +429,13 @@ class ElasticSlider {
             }
         }
     }
+}
+
+// Enable module support
+if (typeof module === 'object' && module.exports) {
+    module.exports = ElasticSlider;
+} else {
+    let obj = this || window;
+
+    obj.ElasticSlider = ElasticSlider;
 }
