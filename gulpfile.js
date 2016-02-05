@@ -63,6 +63,6 @@ gulp.task('connect', function() {
 
 // Tasks
 // ============================================================================
-gulp.task('serve', ['js', 'watch']);
+gulp.task('serve', ['js', 'connect', 'watch']);
 gulp.task('test', ['js', 'connect']);
 gulp.task('default', ['dist:build']);
