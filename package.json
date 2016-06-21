@@ -1,7 +1,7 @@
 {
   "name": "elasticslider-core",
   "main": "dist/elasticslider-core.min.js",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "A carousel for developers.",
   "files": [
     "dist"

@@ -1,6 +1,6 @@
 'use strict';
 
-class ElasticSlider {
+class ElasticSliderCore {
     constructor(el, options) {
 
         // Public properties
@@ -73,7 +73,7 @@ class ElasticSlider {
             // remove them.
             if (k.indexOf('item') !== 0) continue;
 
-            let elementList = this.elementList.slider.querySelectorAll(`.${this.CLASS_NAME_LIST[k]}`);
+            const elementList = this.elementList.slider.querySelectorAll(`.${this.CLASS_NAME_LIST[k]}`);
 
             if (elementList.length) {
                 // Loop through elements and remove classes
@@ -102,7 +102,7 @@ class ElasticSlider {
             index = params.index;
         }
         else if (!this._typeTest('object', params)) {
-            console.error('ElasticSlider.toSlide: params is expected to be an object. Eg. {index: 5}');
+            console.error('ElasticSliderCore.toSlide: params is expected to be an object. Eg. {index: 5}');
         }
 
         // `animation` fallback
@@ -159,30 +159,27 @@ class ElasticSlider {
     }
 
     animationStart(cb) {
-        let self = this;
-
         // Defer
         window.setTimeout(() => {
             if (this._typeTest('function', cb)) {
                 // Run the method in context of the class
-                cb = cb.bind(self);
+                cb = cb.bind(this);
                 cb();
             }
         }, this._initialAnimationDelay);
     }
 
     animationEnd(duration = 100, cb) {
-        let self = this;
-        let totalDuration = (duration) + this._initialAnimationDelay;
+        const totalDuration = (duration) + this._initialAnimationDelay;
 
         window.setTimeout(() => {
             if (this._typeTest('function', cb)) {
                 // Run the method in context of the class
-                cb = cb.bind(self);
+                cb = cb.bind(this);
                 cb();
             }
 
-            self._endSlide();
+            this._endSlide();
         }, totalDuration);
     }
 
@@ -190,7 +187,7 @@ class ElasticSlider {
         if (this._typeTest('string', name) && this._typeTest('function', func)) {
             this._animationFunctionHash[name] = func.bind(this);
         } else {
-            console.error('ElasticSlider.addAnimationFunction: Parameters must be name<String>, func<Function>');
+            console.error('ElasticSliderCore.addAnimationFunction: Parameters must be name<String>, func<Function>');
         }
     }
 
@@ -221,12 +218,12 @@ class ElasticSlider {
     }
 
     _checkClassRequirements(el) {
-        let requiredElementsArr = [
+        const requiredElementsArr = [
             this.CLASS_NAME_LIST.container
         ];
 
         requiredElementsArr.forEach((item) => {
-            let element = el.querySelector(`.${item}`);
+            const element = el.querySelector(`.${item}`);
 
             if (!element) {
                 throw `Required element .${item} missing. Please use an ElasticSlider UI plugin or read the documentation.`;
@@ -256,7 +253,7 @@ class ElasticSlider {
     _setActiveSlide(index = this.getProp('nextActiveSlideIndex')) {
         // Remove the active class name from all elements
         for (let i = 0; i < this.elementList.slideArr.length; i++) {
-            let slide = this.elementList.slideArr[i];
+            const slide = this.elementList.slideArr[i];
 
             slide.classList.remove(this.CLASS_NAME_LIST.itemActive);
         }
@@ -298,9 +295,9 @@ class ElasticSlider {
 
         this.addAnimationFunction('slide', () => {
             let direction = null; // Determines which direction to slide
-            let animationDirection = this.getProp('animationDirection');
-            let nextActiveSlideIndex = this.getProp('nextActiveSlideIndex')
-            let activeSlideIndex = this.getProp('activeSlideIndex')
+            const animationDirection = this.getProp('animationDirection');
+            const nextActiveSlideIndex = this.getProp('nextActiveSlideIndex')
+            const activeSlideIndex = this.getProp('activeSlideIndex')
 
             // If an explicit direction has been set
             if (animationDirection) {
@@ -351,7 +348,7 @@ class ElasticSlider {
 
     // Allows for animations functions to be inserted from an external source
     _addCustomAnimationFunctions() {
-        let customAnimationMap = window.elasticSliderAnimationMap;
+        const customAnimationMap = window.elasticSliderAnimationMap;
 
         if (this._typeTest('object', customAnimationMap)) {
             for (let name in customAnimationMap) {
@@ -414,12 +411,12 @@ class ElasticSlider {
 
     // Play/pause youtube videos
     _toggleActiveVideo(elArr, enableBool) {
-        var func = enableBool === true ? 'playVideo' : 'pauseVideo';
+        const func = enableBool === true ? 'playVideo' : 'pauseVideo';
 
         // If elements have been passed through
         if (elArr.length) {
             // Run a play/pause on all videos in the slide
-            for (var i = 0; i < elArr.length; i++) {
+            for (let i = 0; i < elArr.length; i++) {
                 if (elArr[i].src.indexOf('enablejsapi=true') !== -1) {
                     // Send the play/pause command
                     elArr[i].contentWindow.postMessage(
@@ -433,9 +430,9 @@ class ElasticSlider {
 
 // Enable module support
 if (typeof module === 'object' && module.exports) {
-    module.exports = ElasticSlider;
+    module.exports = ElasticSliderCore;
 } else {
-    let obj = this || window;
+    const obj = this || window;
 
-    obj.ElasticSlider = ElasticSlider;
+    obj.ElasticSliderCore = ElasticSliderCore;
 }
