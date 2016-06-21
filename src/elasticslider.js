@@ -1,6 +1,6 @@
 'use strict';
 
-class ElasticSlider {
+class ElasticSliderCore {
     constructor(el, options) {
 
         // Public properties
@@ -433,9 +433,9 @@ class ElasticSlider {
 
 // Enable module support
 if (typeof module === 'object' && module.exports) {
-    module.exports = ElasticSlider;
+    module.exports = ElasticSliderCore;
 } else {
     let obj = this || window;
 
-    obj.ElasticSlider = ElasticSlider;
+    obj.ElasticSliderCore = ElasticSliderCore;
 }
