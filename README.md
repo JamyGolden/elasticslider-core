@@ -6,7 +6,7 @@ A carousel for developers.
 - Easily use the animation API to create a custom animations
 - Optimised and built for modern applications
 - Not bundled with bloat view logic, that is left to the framework implementation.
-- [Angular](https://github.com/JamyGolden/Angular-ElasticSlider/) and [Polymer](https://github.com/JamyGolden/Polymer-ElasticSlider/) versions are supported
+- [Angular](https://github.com/JamyGolden/Angular-ElasticSlider/), [Polymer](https://github.com/JamyGolden/Polymer-ElasticSlider/) and [React](https://github.com/JamyGolden/react-elasticslider) versions are supported
 
 ## Support
 \>=IE10 and modern browsers.
