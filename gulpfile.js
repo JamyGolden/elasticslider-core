@@ -3,7 +3,7 @@
 var gulp = require('gulp');
 var sourcemaps = require('gulp-sourcemaps');
 var concat = require('gulp-concat');
-var connect = require('gulp-connect');
+var webserver = require("gulp-webserver");
 var babel = require('gulp-babel');
 var del = require('del');
 var uglify = require('gulp-uglify');
@@ -55,16 +55,18 @@ gulp.task('dist:build', ['dist:clean'], function () {
 
 // Test
 // ============================================================================
-gulp.task('connect', function() {
-    connect.server({
-        port: 5000,
-        root: './src',
-        livereload: false
-    });
+gulp.task('server', function() {
+  return gulp.src('./src')
+      .pipe(webserver({
+          livereload: false,
+          fallback: 'demo.html',
+          port: 5000,
+          open: true,
+      }));
 });
 
 // Tasks
 // ============================================================================
-gulp.task('serve', ['js', 'connect', 'watch']);
-gulp.task('test', ['js', 'connect']);
+gulp.task('serve', ['js', 'server', 'watch']);
+gulp.task('test', ['js', 'server']);
 gulp.task('default', ['dist:build']);
