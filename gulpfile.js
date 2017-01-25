@@ -1,15 +1,15 @@
 'use strict';
 
-var gulp = require('gulp');
-var sourcemaps = require('gulp-sourcemaps');
-var concat = require('gulp-concat');
-var connect = require('gulp-connect');
-var babel = require('gulp-babel');
-var del = require('del');
-var uglify = require('gulp-uglify');
-var header = require('gulp-header');
-var pkg = require('./package.json');
-var banner = ['/**',
+const gulp = require('gulp');
+const sourcemaps = require('gulp-sourcemaps');
+const concat = require('gulp-concat');
+const webserver = require("gulp-webserver");
+const babel = require('gulp-babel');
+const del = require('del');
+const uglify = require('gulp-uglify');
+const header = require('gulp-header');
+const pkg = require('./package.json');
+const banner = ['/**',
     ' * <%= pkg.name %> - <%= pkg.description %>',
     ' * @version v<%= pkg.version %>',
     ' * @link <%= pkg.homepage %>',
@@ -18,8 +18,8 @@ var banner = ['/**',
     ''].join('\n');
 
 // Develop build
-// ============================================================================
-gulp.task('js', function () {
+// =============================================================================
+gulp.task('js', () => {
     gulp.src([
             'src/elasticslider.js',
         ])
@@ -32,17 +32,15 @@ gulp.task('js', function () {
         .pipe(gulp.dest('src/'));
 });
 
-gulp.task('watch', function () {
+gulp.task('watch', () => {
     gulp.watch('src/elasticslider.js', ['js']);
 });
 
 // Dist build
-// ============================================================================
-gulp.task('dist:clean', function (cb) {
-    return del(['dist'], cb);
-});
+// =============================================================================
+gulp.task('dist:clean', cb => del(['dist'], cb));
 
-gulp.task('dist:build', ['dist:clean'], function () {
+gulp.task('dist:build', ['dist:clean'], () => {
     return gulp.src('src/elasticslider.js')
         .pipe(concat('elasticslider-core.min.js'))
         .pipe(babel({
@@ -54,17 +52,19 @@ gulp.task('dist:build', ['dist:clean'], function () {
 });
 
 // Test
-// ============================================================================
-gulp.task('connect', function() {
-    connect.server({
-        port: 5000,
-        root: './src',
-        livereload: false
-    });
+// =============================================================================
+gulp.task('server', () => {
+  return gulp.src('./src')
+      .pipe(webserver({
+          livereload: false,
+          fallback: 'demo.html',
+          port: 5000,
+          open: true,
+      }));
 });
 
 // Tasks
-// ============================================================================
-gulp.task('serve', ['js', 'connect', 'watch']);
-gulp.task('test', ['js', 'connect']);
+// =============================================================================
+gulp.task('serve', ['js', 'server', 'watch']);
+gulp.task('test', ['js', 'server']);
 gulp.task('default', ['dist:build']);
