@@ -15,7 +15,7 @@
     "gulp-concat": "^2.6.1",
     "gulp-header": "^1.8.8",
     "gulp-sourcemaps": "^2.4.0",
-    "gulp-uglify": "^2.0.1",
+    "gulp-uglify": "^2.1.2",
     "gulp-webserver": "^0.9.1"
   },
   "scripts": {
